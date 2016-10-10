@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiniSharp", "RiniSharp\RiniSharp.csproj", "{AAE827E2-ECD2-490F-8D59-C8367E3DFAF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiniSharpCore", "RiniSharpCore\RiniSharpCore.csproj", "{2AD9C1A3-37CF-41E9-8448-0AFFE3B056AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAE827E2-ECD2-490F-8D59-C8367E3DFAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAE827E2-ECD2-490F-8D59-C8367E3DFAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAE827E2-ECD2-490F-8D59-C8367E3DFAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAE827E2-ECD2-490F-8D59-C8367E3DFAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AD9C1A3-37CF-41E9-8448-0AFFE3B056AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AD9C1A3-37CF-41E9-8448-0AFFE3B056AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AD9C1A3-37CF-41E9-8448-0AFFE3B056AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AD9C1A3-37CF-41E9-8448-0AFFE3B056AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
