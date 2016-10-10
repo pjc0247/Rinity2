@@ -13,11 +13,11 @@ namespace RiniSharpCore
 
     public class DispatchAttribute : Attribute
     {
-        public ThreadType to;
+        public ThreadType type;
 
-        public DispatchAttribute(ThreadType to)
+        public DispatchAttribute(ThreadType type)
         {
-            this.to = to;
+            this.type = to;
         }
     }
 }
