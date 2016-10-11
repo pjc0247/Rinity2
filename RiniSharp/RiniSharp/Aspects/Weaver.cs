@@ -28,6 +28,7 @@ namespace RiniSharp.Aspects
             // TODO ??
             AddMethodAspect<Dispatch>();
             AddMethodAspect<Trace>();
+            AddMethodAspect<SuppressException>();
 
             AddClassAspect<NotifyChange>();
         }

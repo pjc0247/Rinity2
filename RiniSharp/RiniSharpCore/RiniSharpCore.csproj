@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Impl\Dispatcher.cs" />
     <Compile Include="NotifyChangeAttribute.cs" />
+    <Compile Include="SuppressExceptionAttribute.cs" />
     <Compile Include="ThreadingAttributes.cs" />
     <Compile Include="TraceAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

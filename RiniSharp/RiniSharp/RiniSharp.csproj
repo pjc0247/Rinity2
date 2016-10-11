@@ -66,6 +66,7 @@
     <Compile Include="Aspects\IAspectBase.cs" />
     <Compile Include="Aspects\AspectTargetAttribute.cs" />
     <Compile Include="Aspects\Class\ClassAspect.cs" />
+    <Compile Include="Aspects\Method\SupressException.cs" />
     <Compile Include="Aspects\Method\Trace.cs" />
     <Compile Include="Aspects\WeaveError.cs" />
     <Compile Include="Aspects\WeaveException.cs" />
