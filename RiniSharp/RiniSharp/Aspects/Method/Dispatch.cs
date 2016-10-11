@@ -12,9 +12,9 @@ using RiniSharpCore.Impl;
 
 namespace RiniSharp.Aspects.Method
 {
-    class Dispatch
+    class Dispatch : IMethodAspect
     {
-        static void ProcessDispatch(MethodDefinition method, CustomAttribute attr)
+        public void Apply(MethodDefinition method, CustomAttribute attr)
         {
             Console.WriteLine($"   [DISPATCH] {method.FullName}");
 
@@ -32,6 +32,5 @@ namespace RiniSharp.Aspects.Method
 
             ilgen.Emit(OpCodes.Ret);
         }
-
     }
 }

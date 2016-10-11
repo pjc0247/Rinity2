@@ -17,7 +17,7 @@ namespace RiniSharpCore
 
         public DispatchAttribute(ThreadType type)
         {
-            this.type = to;
+            this.type = type;
         }
     }
 }

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RiniSharp.Weavers.Method
-{
-    interface IMethodWeaver
-    {
+using Mono.Cecil;
 
+namespace RiniSharp.Aspects.Method
+{
+    interface IMethodAspect
+    {
+        void Apply(MethodDefinition method, CustomAttribute attr);
     }
 }

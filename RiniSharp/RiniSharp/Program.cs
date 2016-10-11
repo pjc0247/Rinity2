@@ -129,11 +129,7 @@ namespace RiniSharp
             {
                 if (attr.AttributeType.Name == typeof(NotifyChangeAttribute).Name)
                 {
-                    foreach (var prop in type.Properties)
-                    {
-                        if (prop.SetMethod != null)
-                            ProcessNotifyChange(prop);
-                    }
+                    
                 }
             }
         }
@@ -165,11 +161,10 @@ namespace RiniSharp
             Console.WriteLine(Global.mscorlib + "  " + Global.mscorlib.RuntimeVersion);
             Console.WriteLine(Global.system + "  " + Global.system.RuntimeVersion);
 
-            foreach (var type in unityScript.Types)
-            {
-                ProcessType(type);
-            }
+            var weaver = new Aspects.Weaver();
 
+            weaver.ProcessModule(unityScript);
+                        
             unityScript.Write("tmp.dll");
             unityScript.Dispose();
 

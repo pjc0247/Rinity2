@@ -21,7 +21,6 @@ namespace RiniSharp.Aspects
 
         public void ProcessModule(ModuleDefinition module)
         {
-
         }
     }
 }
