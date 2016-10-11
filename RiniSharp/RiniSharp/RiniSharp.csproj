@@ -74,6 +74,7 @@
     <Compile Include="Aspects\Method\Trace.cs" />
     <Compile Include="Aspects\WeaveError.cs" />
     <Compile Include="Aspects\WeaveException.cs" />
+    <Compile Include="AutoInection\AutoInjectionRule.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="ILTag.cs" />
     <Compile Include="InstructionExt.cs" />

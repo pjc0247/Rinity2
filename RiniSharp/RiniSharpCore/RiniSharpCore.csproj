@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoInjectionRule.cs" />
     <Compile Include="Impl\Dispatcher.cs" />
     <Compile Include="Impl\IRecycleablePool.cs" />
     <Compile Include="Impl\ObjectPool.cs" />
