@@ -16,7 +16,7 @@ namespace RiniSharp.Aspects.Class
     [AspectTarget(typeof(RecycleAttribute))]
     class Recycle : ClassAspect
     {
-        private void ProcessMethod(MethodDefinition method)
+        private void ProcessMethod(TypeDefinition type, MethodDefinition method)
         {
             WvPatterns.Replace.Apply(
                 (inst) =>
@@ -25,7 +25,7 @@ namespace RiniSharp.Aspects.Class
                     {
                         var ctor = (MethodReference)inst.Operand;
 
-                        if (ctor.DeclaringType == method.DeclaringType)
+                        if (ctor.DeclaringType == type)
                             return true;
                     }
 
@@ -38,10 +38,10 @@ namespace RiniSharp.Aspects.Class
                         typeof(ObjectPool).GetMethod(nameof(ObjectPool.Get)));
                     var genericPoolGetMethod = new GenericInstanceMethod(poolGetMethod);
 
-                    genericPoolGetMethod.GenericArguments.Add(method.DeclaringType);
+                    genericPoolGetMethod.GenericArguments.Add(type);
 
                     ilgen.InsertAfter(offset,
-                        ilgen.Create(OpCodes.Castclass, method.DeclaringType));
+                        ilgen.Create(OpCodes.Castclass, type));
 
                     ilgen.Replace(offset,
                         ilgen.Create(OpCodes.Call, genericPoolGetMethod));
@@ -73,9 +73,10 @@ namespace RiniSharp.Aspects.Class
         {
             Console.WriteLine($"[Recycle]");
 
-            foreach(var method in type.Methods)
+            foreach(var _type in module.Types)
             {
-                ProcessMethod(method);
+                foreach (var method in _type.Methods)
+                    ProcessMethod(type, method);
             }
 
             CreateDtor(type);
