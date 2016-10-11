@@ -65,6 +65,7 @@
     <Compile Include="Aspects\IAspectBase.cs" />
     <Compile Include="Aspects\AspectTargetAttribute.cs" />
     <Compile Include="Aspects\Class\ClassAspect.cs" />
+    <Compile Include="Aspects\Method\Trace.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="ILTag.cs" />
     <Compile Include="InstructionExt.cs" />
@@ -77,6 +78,11 @@
     <Compile Include="Aspects\Method\Dispatch.cs" />
     <Compile Include="Aspects\Method\MethodAspect.cs" />
     <Compile Include="Aspects\Weaver.cs" />
+    <Compile Include="WvPatterns\EnumerateProperties.cs" />
+    <Compile Include="WvPatterns\Replace.cs" />
+    <Compile Include="WvPatterns\TryCatch.cs" />
+    <Compile Include="WvPatterns\WrapMethod.cs" />
+    <Compile Include="WvPatterns\WvPatterns.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
