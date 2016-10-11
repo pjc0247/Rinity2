@@ -63,3 +63,9 @@ class Player : INotifyPropertyChanged {}
     }
 }
 ```
+
+__DbgHelper__
+```cs
+// current code line
+Debug.Log( DbgHelper.CurrentLine );
+```
