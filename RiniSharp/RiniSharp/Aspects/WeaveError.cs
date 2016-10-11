@@ -8,5 +8,9 @@ namespace RiniSharp.Aspects
 {
     class WeaveError
     {
+        public WeaveError(Exception e)
+        {
+
+        }
     }
 }

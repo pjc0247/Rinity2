@@ -43,6 +43,11 @@ namespace RiniSharp.Aspects
             classAspects.Add(new T());
         }
 
+        private void AddErrorFromException(Exception e)
+        {
+            errors.Add(new WeaveError(e));
+        }
+
         private void ProcessMethod(MethodDefinition method)
         {
             foreach (var aspect in methodAspects)
@@ -57,6 +62,7 @@ namespace RiniSharp.Aspects
                     }
                     catch(Exception e)
                     {
+                        AddErrorFromException(e);
                     }
                 }
             }
@@ -83,12 +89,19 @@ namespace RiniSharp.Aspects
                     }
                     catch(Exception e)
                     {
+                        AddErrorFromException(e);
                     }
                 }
             }
         }
         public WeaveError[] ProcessModule(ModuleDefinition module)
         {
+            if (AssemblyTag.HasTag(module))
+            {
+                Console.WriteLine("[HasTag]");
+                return new WeaveError[] { };
+            }
+
             errors.Clear();
 
             var typesCopy = new TypeDefinition[module.Types.Count];
@@ -96,6 +109,8 @@ namespace RiniSharp.Aspects
 
             foreach(var type in module.Types)
                 ProcessType(type);
+
+            AssemblyTag.AddTag(module);
 
             return errors.ToArray();
         }
