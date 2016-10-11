@@ -21,4 +21,15 @@ namespace RiniSharpCore
             this.type = type;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class AffinityAttribute : Attribute
+    {
+        public ThreadType type;
+
+        public AffinityAttribute(ThreadType type)
+        {
+            this.type = type;
+        }
+    }
 }

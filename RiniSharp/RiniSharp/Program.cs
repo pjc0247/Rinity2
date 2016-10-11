@@ -47,7 +47,12 @@ namespace RiniSharp
 
             var weaver = new Aspects.Weaver();
 
-            weaver.ProcessModule(unityScript);
+            var errors = weaver.ProcessModule(unityScript);
+
+            foreach(var error in errors)
+            {
+                Console.WriteLine(error);
+            }
                         
             unityScript.Write("tmp.dll");
             unityScript.Dispose();

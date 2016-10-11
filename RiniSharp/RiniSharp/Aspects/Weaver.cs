@@ -26,9 +26,9 @@ namespace RiniSharp.Aspects
             errors = new List<WeaveError>();
 
             // TODO ??
-            AddMethodAspect<Dispatch>();
             AddMethodAspect<Trace>();
             AddMethodAspect<SuppressException>();
+            AddMethodAspect<Dispatch>();
 
             AddClassAspect<NotifyChange>();
         }
