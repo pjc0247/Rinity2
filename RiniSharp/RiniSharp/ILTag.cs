@@ -14,7 +14,6 @@ namespace RiniSharp
         public static void Output(ILProcessor ilgen, string msg)
         {
 #if DEBUG
-            ilgen.Emit(OpCodes.Nop);
             ilgen.Emit(OpCodes.Ldstr, msg);
             ilgen.Emit(OpCodes.Pop);
 #endif

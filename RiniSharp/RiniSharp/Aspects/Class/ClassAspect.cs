@@ -8,7 +8,6 @@ using Mono.Cecil;
 
 namespace RiniSharp.Aspects.Class
 {
-    [AspectTarget(typeof(DispatchAttribute))]
     class ClassAspect : IAspectBase
     {
         public ModuleDefinition module { get; private set; }

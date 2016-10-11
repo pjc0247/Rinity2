@@ -13,22 +13,22 @@ namespace RiniSharp.Aspects
 
     class Weaver
     {
-        private List<AspectBase> methodAspects { get; set; }
-        private List<AspectBase> classAspects { get; set; }
+        private List<IAspectBase> methodAspects { get; set; }
+        private List<IAspectBase> classAspects { get; set; }
 
         public Weaver()
         {
-            methodAspects = new List<AspectBase>();
-            classAspects = new List<AspectBase>();
+            methodAspects = new List<IAspectBase>();
+            classAspects = new List<IAspectBase>();
         }
 
         public void AddMethodAspect<T>(T aspect)
-            where T : AspectBase, IMethodAspect
+            where T : IAspectBase
         {
             methodAspects.Add(aspect);
         }
         public void AddClassAspect<T>(T aspect)
-            where T : AspectBase, IClassAspect
+            where T : IAspectBase
         {
             classAspects.Add(aspect);
         }
@@ -42,7 +42,7 @@ namespace RiniSharp.Aspects
             {
                 var attr = aspect.GetAcceptableAttribute(method);
                 if (attr != null)
-                    ((IMethodAspect)aspect).Apply(method, attr);
+                    ((MethodAspect)aspect).Apply(method, attr);
             }
         }
         private void ProcessType(TypeDefinition type)
@@ -59,7 +59,7 @@ namespace RiniSharp.Aspects
             {
                 var attr = aspect.GetAcceptableAttribute(type);
                 if (attr != null)
-                    ((IClassAspect)aspect).Apply(type, attr);
+                    ((ClassAspect)aspect).Apply(type, attr);
             }
         }
         public void ProcessModule(ModuleDefinition module)

@@ -11,6 +11,7 @@ namespace RiniSharpCore
         ThreadPool = 1
     }
 
+    [AttributeUsage(AttributeTargets.Method)]
     public class DispatchAttribute : Attribute
     {
         public ThreadType type;

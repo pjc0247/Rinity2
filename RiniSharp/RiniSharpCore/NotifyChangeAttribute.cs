@@ -5,6 +5,7 @@ using System.Text;
 
 namespace RiniSharpCore
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class NotifyChangeAttribute : Attribute
     {
     }

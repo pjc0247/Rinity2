@@ -62,9 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aspects\AspectBase.cs" />
+    <Compile Include="Aspects\IAspectBase.cs" />
     <Compile Include="Aspects\AspectTargetAttribute.cs" />
-    <Compile Include="Aspects\Class\IClassAspect.cs" />
+    <Compile Include="Aspects\Class\ClassAspect.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="ILTag.cs" />
     <Compile Include="InstructionExt.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Aspects\Class\NotifyChange.cs" />
     <Compile Include="Aspects\Method\Dispatch.cs" />
-    <Compile Include="Aspects\Method\IMethodAspect.cs" />
+    <Compile Include="Aspects\Method\MethodAspect.cs" />
     <Compile Include="Aspects\Weaver.cs" />
   </ItemGroup>
   <ItemGroup>
