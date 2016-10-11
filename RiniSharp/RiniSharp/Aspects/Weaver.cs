@@ -10,11 +10,13 @@ namespace RiniSharp.Aspects
 {
     using Method;
     using Class;
+    using Property;
 
     class Weaver
     {
         private List<IAspectBase> methodAspects { get; set; }
         private List<IAspectBase> classAspects { get; set; }
+        private List<IAspectBase> propertyAspects { get; set; }
 
         private List<WeaveError> errors { get; set; }
 
@@ -22,6 +24,7 @@ namespace RiniSharp.Aspects
         {
             methodAspects = new List<IAspectBase>();
             classAspects = new List<IAspectBase>();
+            propertyAspects = new List<IAspectBase>();
 
             errors = new List<WeaveError>();
 
@@ -32,6 +35,8 @@ namespace RiniSharp.Aspects
 
             AddClassAspect<NotifyChange>();
             AddClassAspect<Recycle>();
+
+            AddPropertyAspect<SharedVariable>();
         }
 
         public void AddMethodAspect<T>()
@@ -44,12 +49,37 @@ namespace RiniSharp.Aspects
         {
             classAspects.Add(new T());
         }
+        public void AddPropertyAspect<T>()
+            where T : IAspectBase, new()
+        {
+            propertyAspects.Add(new T());
+        }
 
         private void AddErrorFromException(Exception e)
         {
             errors.Add(new WeaveError(e));
         }
 
+        private void ProcessProperty(PropertyDefinition property)
+        {
+            foreach (var aspect in propertyAspects)
+            {
+                var attr = aspect.GetAcceptableAttribute(property);
+                if (attr != null)
+                {
+                    try
+                    {
+                        aspect.Bind(property);
+                        ((PropertyAspect)aspect).Apply(property, attr);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        AddErrorFromException(e);
+                    }
+                }
+            }
+        }
         private void ProcessMethod(MethodDefinition method)
         {
             foreach (var aspect in methodAspects)
@@ -77,8 +107,14 @@ namespace RiniSharp.Aspects
             var methodsCopy = new MethodDefinition[type.Methods.Count];
             type.Methods.CopyTo(methodsCopy, 0);
 
+            var propertiesCopy = new PropertyDefinition[type.Properties.Count];
+            type.Properties.CopyTo(propertiesCopy, 0);
+
             foreach (var method in methodsCopy)
                 ProcessMethod(method);
+
+            foreach (var property in propertiesCopy)
+                ProcessProperty(property);
 
             foreach (var aspect in classAspects)
             {

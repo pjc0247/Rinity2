@@ -45,8 +45,10 @@
     <Compile Include="Impl\Dispatcher.cs" />
     <Compile Include="Impl\IRecycleablePool.cs" />
     <Compile Include="Impl\ObjectPool.cs" />
+    <Compile Include="Impl\SharedVariables.cs" />
     <Compile Include="NotifyChangeAttribute.cs" />
     <Compile Include="RecycleAttribute.cs" />
+    <Compile Include="SharedVariableAttribute.cs" />
     <Compile Include="SuppressExceptionAttribute.cs" />
     <Compile Include="ThreadingAttributes.cs" />
     <Compile Include="TraceAttribute.cs" />
