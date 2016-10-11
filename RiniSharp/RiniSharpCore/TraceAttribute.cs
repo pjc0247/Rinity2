@@ -5,6 +5,7 @@ using System.Text;
 
 namespace RiniSharpCore
 {
+    [AttributeUsage(AttributeTargets.Method)]
     public class TraceAttribute : Attribute
     {
     }

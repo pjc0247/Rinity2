@@ -8,9 +8,12 @@ using System.ComponentModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
+using RiniSharpCore;
+
 namespace RiniSharp.Aspects.Class
 {
-    class NotifyChange : IClassAspect
+    [AspectTarget(typeof(NotifyChangeAttribute))]
+    class NotifyChange : ClassAspect
     {
         private void ProcessNotifyChange(PropertyDefinition property)
         {
@@ -50,7 +53,7 @@ namespace RiniSharp.Aspects.Class
                 ilgen.Create(OpCodes.Callvirt, Global.module.Import(invokeMethod)));
         }
 
-        public void Apply(TypeDefinition type, CustomAttribute attr)
+        public override void Apply(TypeDefinition type, CustomAttribute attr)
         {
             foreach (var prop in type.Properties)
             {

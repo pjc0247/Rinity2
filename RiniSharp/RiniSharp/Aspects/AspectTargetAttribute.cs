@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RiniSharp.Aspects
 {
+    [AttributeUsage(AttributeTargets.Class)]
     class AspectTargetAttribute : Attribute
     {
         public Type[] targets { get; set; }

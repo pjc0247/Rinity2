@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 using Mono.Cecil;
 
-namespace RiniSharp.Aspects
+namespace RiniSharp.Aspects.Class
 {
-    class AspectBase
+    [AspectTarget(typeof(DispatchAttribute))]
+    class ClassAspect : IAspectBase
     {
         public ModuleDefinition module { get; private set; }
         public TypeDefinition type { get; private set; }
 
-        internal Type[] targets
+        public Type[] targets
         {
             get
             {
@@ -26,30 +27,13 @@ namespace RiniSharp.Aspects
             }
         }
 
-        private List<MethodDefinition> pendingMethods { get; set; }
-
-        public AspectBase(TypeDefinition type)
+        public void Bind(IMemberDefinition _type)
         {
-            this.type = type;
-            this.module = type.Module;
-
-            pendingMethods = new List<MethodDefinition>();
+            type = (TypeDefinition)_type;
+            module = type.Module;
         }
 
-        internal CustomAttribute GetAcceptableAttribute(MethodDefinition method)
-        {
-            foreach(var attr in method.CustomAttributes)
-            {
-                foreach(var target in targets)
-                {
-                    if (attr.AttributeType.Name == target.Name)
-                        return attr;
-                }
-            }
-
-            return null;
-        }
-        internal CustomAttribute GetAcceptableAttribute(TypeDefinition type)
+        public CustomAttribute GetAcceptableAttribute(IMemberDefinition type)
         {
             foreach (var attr in type.CustomAttributes)
             {
@@ -61,6 +45,10 @@ namespace RiniSharp.Aspects
             }
 
             return null;
+        }
+
+        public virtual void Apply(TypeDefinition type, CustomAttribute attr)
+        {
         }
     }
 }

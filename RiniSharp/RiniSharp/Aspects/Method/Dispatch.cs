@@ -12,9 +12,10 @@ using RiniSharpCore.Impl;
 
 namespace RiniSharp.Aspects.Method
 {
-    class Dispatch : IMethodAspect
+    [AspectTarget(typeof(DispatchAttribute))]
+    class Dispatch : MethodAspect
     {
-        public void Apply(MethodDefinition method, CustomAttribute attr)
+        public override void Apply(MethodDefinition method, CustomAttribute attr)
         {
             Console.WriteLine($"   [DISPATCH] {method.FullName}");
 
