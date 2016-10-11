@@ -14,5 +14,10 @@ namespace RiniSharpCore.Impl
 
             return new T();
         }
+
+        public static void Return<T>(object obj)
+        {
+            UnityEngine.Debug.Log("ObjectPool::Return");
+        }
     }
 }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impl\Dispatcher.cs" />
+    <Compile Include="Impl\IRecycleablePool.cs" />
     <Compile Include="Impl\ObjectPool.cs" />
     <Compile Include="NotifyChangeAttribute.cs" />
     <Compile Include="RecycleAttribute.cs" />

@@ -48,6 +48,27 @@ namespace RiniSharp.Aspects.Class
                 });
         }
 
+        private void CreateDtor(TypeDefinition type)
+        {
+            var dtor = new MethodDefinition("Finalize",
+                MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Family,
+                module.TypeSystem.Void);
+
+            var ilgen = dtor.Body.GetILProcessor();
+
+            var poolReturnMethod = module.ImportReference(
+                        typeof(ObjectPool).GetMethod(nameof(ObjectPool.Return)));
+            var genericPoolReturnMethod = new GenericInstanceMethod(poolReturnMethod);
+
+            genericPoolReturnMethod.GenericArguments.Add(type);
+
+            ilgen.Emit(OpCodes.Ldarg_0);
+            ilgen.Emit(OpCodes.Call, genericPoolReturnMethod);
+            ilgen.Emit(OpCodes.Ret);
+
+            type.Methods.Add(dtor);
+        }
+
         public override void Apply(TypeDefinition type, CustomAttribute attr)
         {
             Console.WriteLine($"[Recycle]");
@@ -56,6 +77,8 @@ namespace RiniSharp.Aspects.Class
             {
                 ProcessMethod(method);
             }
+
+            CreateDtor(type);
         }
     }
 }
