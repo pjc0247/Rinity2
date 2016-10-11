@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aspects\AspectBase.cs" />
+    <Compile Include="Aspects\AspectTargetAttribute.cs" />
     <Compile Include="Aspects\Class\IClassAspect.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="ILTag.cs" />
