@@ -17,7 +17,10 @@ namespace RiniSharp.WvPatterns
         {
             var ilgen = method.Body.GetILProcessor();
 
-            foreach (var inst in method.Body.Instructions)
+            var instructionsCopy = new Instruction[method.Body.Instructions.Count];
+            method.Body.Instructions.CopyTo(instructionsCopy, 0);
+
+            foreach (var inst in instructionsCopy)
             {
                 if (inst == find)
                     callback(ilgen, inst);
@@ -30,7 +33,10 @@ namespace RiniSharp.WvPatterns
         {
             var ilgen = method.Body.GetILProcessor();
 
-            foreach (var inst in method.Body.Instructions)
+            var instructionsCopy = new Instruction[method.Body.Instructions.Count];
+            method.Body.Instructions.CopyTo(instructionsCopy, 0);
+
+            foreach (var inst in instructionsCopy)
             {
                 if (check(inst))
                     callback(ilgen, inst);

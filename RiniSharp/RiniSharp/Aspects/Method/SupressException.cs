@@ -27,6 +27,7 @@ namespace RiniSharp.Aspects.Method
                 (ilgen, offset) =>
                 {
                     ilgen.InsertAfter(offset, ilgen.Create(OpCodes.Ret));
+                    ilgen.InsertAfter(offset, ilgen.Create(OpCodes.Pop));
                 });
         }
     }

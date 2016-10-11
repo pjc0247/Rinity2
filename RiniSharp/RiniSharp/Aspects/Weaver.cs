@@ -31,6 +31,7 @@ namespace RiniSharp.Aspects
             AddMethodAspect<Dispatch>();
 
             AddClassAspect<NotifyChange>();
+            AddClassAspect<Recycle>();
         }
 
         public void AddMethodAspect<T>()
@@ -63,6 +64,7 @@ namespace RiniSharp.Aspects
                     }
                     catch(Exception e)
                     {
+                        Console.WriteLine(e);
                         AddErrorFromException(e);
                     }
                 }
@@ -90,6 +92,7 @@ namespace RiniSharp.Aspects
                     }
                     catch(Exception e)
                     {
+                        Console.WriteLine(e);
                         AddErrorFromException(e);
                     }
                 }
