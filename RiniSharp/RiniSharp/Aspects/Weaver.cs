@@ -16,25 +16,32 @@ namespace RiniSharp.Aspects
         private List<IAspectBase> methodAspects { get; set; }
         private List<IAspectBase> classAspects { get; set; }
 
+        private List<WeaveError> errors { get; set; }
+
         public Weaver()
         {
             methodAspects = new List<IAspectBase>();
             classAspects = new List<IAspectBase>();
+
+            errors = new List<WeaveError>();
+
+            // TODO ??
+            AddMethodAspect<Dispatch>();
+            AddMethodAspect<Trace>();
+
+            AddClassAspect<NotifyChange>();
         }
 
-        public void AddMethodAspect<T>(T aspect)
-            where T : IAspectBase
+        public void AddMethodAspect<T>()
+            where T : IAspectBase, new()
         {
-            methodAspects.Add(aspect);
+            methodAspects.Add(new T());
         }
-        public void AddClassAspect<T>(T aspect)
-            where T : IAspectBase
+        public void AddClassAspect<T>()
+            where T : IAspectBase, new()
         {
-            classAspects.Add(aspect);
+            classAspects.Add(new T());
         }
-
-
-        
 
         private void ProcessMethod(MethodDefinition method)
         {
@@ -42,7 +49,16 @@ namespace RiniSharp.Aspects
             {
                 var attr = aspect.GetAcceptableAttribute(method);
                 if (attr != null)
-                    ((MethodAspect)aspect).Apply(method, attr);
+                {
+                    try
+                    {
+                        aspect.Bind(method);
+                        ((MethodAspect)aspect).Apply(method, attr);
+                    }
+                    catch(Exception e)
+                    {
+                    }
+                }
             }
         }
         private void ProcessType(TypeDefinition type)
@@ -59,16 +75,29 @@ namespace RiniSharp.Aspects
             {
                 var attr = aspect.GetAcceptableAttribute(type);
                 if (attr != null)
-                    ((ClassAspect)aspect).Apply(type, attr);
+                {
+                    try
+                    {
+                        aspect.Bind(type);
+                        ((ClassAspect)aspect).Apply(type, attr);
+                    }
+                    catch(Exception e)
+                    {
+                    }
+                }
             }
         }
-        public void ProcessModule(ModuleDefinition module)
+        public WeaveError[] ProcessModule(ModuleDefinition module)
         {
+            errors.Clear();
+
             var typesCopy = new TypeDefinition[module.Types.Count];
             module.Types.CopyTo(typesCopy, 0);
 
             foreach(var type in module.Types)
                 ProcessType(type);
+
+            return errors.ToArray();
         }
     }
 }
