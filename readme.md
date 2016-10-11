@@ -33,6 +33,15 @@ public void () OnDownloadJson(string json) {
 }
 ```
 
+__SharedVar__
+```cs
+[SharedVariable("shared_level")]
+public int level {get;set;}
+
+[SharedVariable("shared_level")]
+public int level2 {get;set;}
+```
+
 __Trace__
 ```cs
 https://github.com/pjc0247/Unity.Profiler.Ext
