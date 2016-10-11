@@ -4,6 +4,17 @@ SuperPower Unity!
 
 Features
 ----
+__Recycle__
+```cs
+[Recycle]
+public class Player {
+    /* ... */
+}
+
+/* auto pooling */
+var player = new Player();
+```
+
 __Dispatch__
 ```cs
 [Dispatch(ThreadType.ThreadPool)]
