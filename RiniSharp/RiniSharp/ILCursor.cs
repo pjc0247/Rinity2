@@ -14,6 +14,21 @@ namespace RiniSharp
         private ILProcessor ilProcessor { get; set; }
         private Instruction cursor { get; set; }
 
+        public Instruction current
+        {
+            get
+            {
+                return cursor;
+            }
+        }
+        public ILCursor clone
+        {
+            get
+            {
+                return new ILCursor(ilProcessor, cursor);
+            }
+        }
+
         public ILCursor(ILProcessor ilProcessor)
         {
             this.ilProcessor = ilProcessor;
@@ -35,6 +50,11 @@ namespace RiniSharp
             ilProcessor.InsertAfter(cursor, inst);
             cursor = cursor.Next;
         }
+        public void Emit(params Instruction[] insts)
+        {
+            foreach (var inst in insts)
+                Emit(inst);
+        }
 
         /// <summary>
         /// 커서 왼쪽에 끼워넣는다.
@@ -44,6 +64,34 @@ namespace RiniSharp
         public void EmitBefore(Instruction inst)
         {
             ilProcessor.InsertBefore(cursor, inst);
+        }
+        public void EmitBefore(params Instruction[] insts)
+        {
+            foreach (var inst in insts.Reverse())
+                EmitBefore(inst);
+        }
+
+        /// <summary>
+        /// 현재 커서 명령을 새로운 명령으로 교체한다.
+        /// 커서의 위치 자체는 바뀌지 않는다.
+        /// </summary>
+        /// <param name="inst">명령어</param>
+        public void Replace(Instruction inst)
+        {
+            ilProcessor.Replace(cursor, inst);
+            cursor = inst;
+        }
+
+        /// <summary>
+        /// 현재 커서 명령을 삭제한다.
+        /// 커서는 현재 커서의 Next로 변화한다.
+        /// </summary>
+        /// <param name="inst"></param>
+        public void Remove()
+        {
+            var next = cursor.Next;
+            ilProcessor.Remove(cursor);
+            cursor = next;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace RiniSharp.WvPatterns
             var tail = method.GetTail();
 
             ilgen.Emit(OpCodes.Nop);
-            @catch(ilgen, tail);
+            @catch(ilgen, new ILCursor(ilgen, tail));
 
             Console.WriteLine(tail.Next);
 

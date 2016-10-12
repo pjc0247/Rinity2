@@ -27,7 +27,7 @@ namespace RiniSharp.WvPatterns
             foreach (var inst in instructionsCopy)
             {
                 if (inst == find)
-                    callback(ilgen, inst);
+                    callback(ilgen, new ILCursor(ilgen, inst));
             }
         }
 
@@ -47,7 +47,7 @@ namespace RiniSharp.WvPatterns
             foreach (var inst in instructionsCopy)
             {
                 if (check(inst))
-                    callback(ilgen, inst);
+                    callback(ilgen, new ILCursor(ilgen, inst));
             }
         }
     }

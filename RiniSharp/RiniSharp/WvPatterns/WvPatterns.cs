@@ -9,5 +9,5 @@ using Mono.Cecil.Cil;
 
 namespace RiniSharp.WvPatterns
 {
-    delegate void WeaveExpr(ILProcessor ilgen, Instruction cursor);
+    delegate void WeaveExpr(ILProcessor ilgen, ILCursor cursor);
 }

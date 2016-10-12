@@ -24,10 +24,10 @@ namespace RiniSharp.Aspects.Method
 
             WvPatterns.TryCatch.Apply(
                 method,
-                (ilgen, offset) =>
+                (ilgen, cursor) =>
                 {
-                    ilgen.InsertAfter(offset, ilgen.Create(OpCodes.Ret));
-                    ilgen.InsertAfter(offset, ilgen.Create(OpCodes.Pop));
+                    cursor.Emit(ilgen.Create(OpCodes.Pop));
+                    cursor.Emit(ilgen.Create(OpCodes.Ret));
                 });
         }
     }

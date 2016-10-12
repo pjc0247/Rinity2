@@ -18,8 +18,8 @@ namespace RiniSharp.WvPatterns
 
             var ilgen = method.Body.GetILProcessor();
 
-            before(ilgen, method.GetHead());
-            after(ilgen, method.GetTail());
+            before(ilgen, new ILCursor(ilgen, method.GetHead()));
+            after(ilgen, new ILCursor(ilgen, method.GetTail()));
         }
     }
 }

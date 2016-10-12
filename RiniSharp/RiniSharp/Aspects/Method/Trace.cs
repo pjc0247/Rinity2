@@ -29,19 +29,15 @@ namespace RiniSharp.Aspects.Method
 
             WvPatterns.WrapMethod.Apply(
                 method,
-                (ilgen, offset) =>
+                (ilgen, cursor) =>
                 {
-                    ilgen.InsertBefore(
-                        offset,
+                    cursor.EmitBefore(
+                        ilgen.Create(OpCodes.Ldstr, $"{method.DeclaringType.Name}::{method.Name}()"),
                         ilgen.Create(OpCodes.Call, Global.module.Import(beginMethod)));
-                    ilgen.InsertBefore(
-                        offset,
-                        ilgen.Create(OpCodes.Ldstr, $"{method.DeclaringType.Name}::{method.Name}()"));
                 },
-                (ilgen, offset) =>
+                (ilgen, cursor) =>
                 {
-                    ilgen.InsertBefore(
-                        offset,
+                    cursor.EmitBefore(
                         ilgen.Create(OpCodes.Call, Global.module.Import(endMethod)));
                 });
         }

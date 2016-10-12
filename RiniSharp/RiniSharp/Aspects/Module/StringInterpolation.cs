@@ -29,15 +29,15 @@ namespace RiniSharp.Aspects.Module
                                 return true;
                             return false;
                         },
-                        (ilgen, offset) =>
+                        (ilgen, cursor) =>
                         {
-                            var str = (string)offset.Operand;
+                            var str = (string)cursor.current.Operand;
 
                             //var line = offset.GetCodeLine(method);
 
-                            Interpolate(method, ilgen, offset);
+                            Interpolate(method, ilgen, cursor);
 
-                            ilgen.Remove(offset);
+                            cursor.Remove();
                             //ilgen.Replace(offset, ilgen.Create(OpCodes.Ldc_I4, line));
                         });
 
@@ -45,9 +45,9 @@ namespace RiniSharp.Aspects.Module
             }
         }
 
-        private void Interpolate(MethodDefinition method, ILProcessor ilgen, Instruction inst)
+        private void Interpolate(MethodDefinition method, ILProcessor ilgen, ILCursor cursor)
         {
-            var str = (string)inst.Operand;
+            var str = (string)cursor.current.Operand;
             var regex = new Regex("{{([a-zA-Z_0_9@])}}");
 
             Dictionary<string, VariableDefinition> localMap = new Dictionary<string, VariableDefinition>();
@@ -62,7 +62,7 @@ namespace RiniSharp.Aspects.Module
             method.Body.Variables.Add(interpolatedVariable);
 
             var offset = 0;
-            var instOffset = inst;
+            var instOffset = cursor.current;
 
             ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldstr, ""));
             instOffset = instOffset.Next;

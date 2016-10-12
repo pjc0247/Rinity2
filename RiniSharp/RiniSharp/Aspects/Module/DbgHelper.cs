@@ -33,11 +33,11 @@ namespace RiniSharp.Aspects.Module
 
                             return false;
                         },
-                        (ilgen, offset) =>
+                        (ilgen, cursor) =>
                         {
-                            var line = offset.GetCodeLine(method);
+                            var line = cursor.current.GetCodeLine(method);
 
-                            ilgen.Replace(offset, ilgen.Create(OpCodes.Ldc_I4, line));
+                            cursor.Replace(ilgen.Create(OpCodes.Ldc_I4, line));
                         });
 
                 }

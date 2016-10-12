@@ -32,7 +32,7 @@ namespace RiniSharp.Aspects.Class
 
                     return false;
                 },
-                (ilgen, offset) =>
+                (ilgen, cursor) =>
                 {
                     var poolGetMethod = module.ImportReference(
                         typeof(ObjectPool).GetMethod(nameof(ObjectPool.Get)));
@@ -40,11 +40,8 @@ namespace RiniSharp.Aspects.Class
 
                     genericPoolGetMethod.GenericArguments.Add(type);
 
-                    ilgen.InsertAfter(offset,
-                        ilgen.Create(OpCodes.Castclass, type));
-
-                    ilgen.Replace(offset,
-                        ilgen.Create(OpCodes.Call, genericPoolGetMethod));
+                    cursor.Replace(ilgen.Create(OpCodes.Call, genericPoolGetMethod));
+                    cursor.Emit(ilgen.Create(OpCodes.Castclass, type));
                 });
         }
 
