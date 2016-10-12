@@ -67,7 +67,7 @@ namespace RiniSharp
         }
         public void EmitBefore(params Instruction[] insts)
         {
-            foreach (var inst in insts.Reverse())
+            foreach (var inst in insts)
                 EmitBefore(inst);
         }
 

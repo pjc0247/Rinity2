@@ -33,23 +33,28 @@ namespace RiniSharp.Aspects.Class
                     propertyChangedEventHandler,
                     nameof(PropertyChangingEventHandler.Invoke));
 
-            ilgen.InsertBefore(
-                method.GetTail(),
-                ilgen.Create(OpCodes.Ldarg_0));
-            ilgen.InsertBefore(
-                method.GetTail(),
-                ilgen.Create(OpCodes.Ldfld, propertyChanged));
-            ilgen.InsertBefore(
-                method.GetTail(),
-                ilgen.Create(OpCodes.Ldarg_0));
-            ilgen.InsertBefore(
-                method.GetTail(),
-                ilgen.Create(OpCodes.Ldstr, method.Name));
-            ilgen.InsertBefore(
-                method.GetTail(),
-                ilgen.Create(OpCodes.Newobj, Net2Resolver.GetMethod(typeof(PropertyChangingEventArgs), ".ctor", new Type[] { typeof(string) })));
-            ilgen.InsertBefore(
-                method.GetTail(),
+            // cusror -> ret
+            var cursor = new ILCursor(ilgen, method.GetTail());
+            var localPropertyChangedHandler = new VariableDefinition(propertyChanged.FieldType);
+            method.Body.Variables.Add(localPropertyChangedHandler);
+
+            // loc = this.propertyChanged
+            cursor.EmitBefore(
+                ilgen.Create(OpCodes.Ldarg_0),
+                ilgen.Create(OpCodes.Ldfld, propertyChanged),
+                ilgen.Create(OpCodes.Stloc, localPropertyChangedHandler));
+
+            // if (loc == null) return;
+            cursor.EmitBefore(
+                ilgen.Create(OpCodes.Ldloc, localPropertyChangedHandler),
+                ilgen.Create(OpCodes.Brfalse, method.GetTail()));
+
+            cursor.EmitBefore(
+                ilgen.Create(OpCodes.Ldloc, localPropertyChangedHandler),
+
+                ilgen.Create(OpCodes.Ldarg_0),
+                ilgen.Create(OpCodes.Ldstr, property.Name),
+                ilgen.Create(OpCodes.Newobj, Net2Resolver.GetMethod(typeof(PropertyChangingEventArgs), ".ctor", new Type[] { typeof(string) })),
                 ilgen.Create(OpCodes.Callvirt, Global.module.Import(invokeMethod)));
         }
 

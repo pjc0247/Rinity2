@@ -35,9 +35,8 @@ namespace RiniSharp.Aspects.Module
 
                             //var line = offset.GetCodeLine(method);
 
-                            Interpolate(method, ilgen, cursor);
-
-                            cursor.Remove();
+                            if (Interpolate(method, ilgen, cursor.clone))
+                                cursor.Remove();
                             //ilgen.Replace(offset, ilgen.Create(OpCodes.Ldc_I4, line));
                         });
 
@@ -45,7 +44,7 @@ namespace RiniSharp.Aspects.Module
             }
         }
 
-        private void Interpolate(MethodDefinition method, ILProcessor ilgen, ILCursor cursor)
+        private bool Interpolate(MethodDefinition method, ILProcessor ilgen, ILCursor cursor)
         {
             var str = (string)cursor.current.Operand;
             var regex = new Regex("{{([a-zA-Z_0_9@])}}");
@@ -64,65 +63,50 @@ namespace RiniSharp.Aspects.Module
             var offset = 0;
             var instOffset = cursor.current;
 
-            ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldstr, ""));
-            instOffset = instOffset.Next;
-            ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Stloc, interpolatedVariable));
-            instOffset = instOffset.Next;
+            cursor.Emit(
+                ilgen.Create(OpCodes.Ldstr, ""),
+                ilgen.Create(OpCodes.Stloc, interpolatedVariable));
 
-            foreach (Match match in regex.Matches(str))
+            var matches = regex.Matches(str);
+            foreach (Match match in matches)
             {
                 var targetVariableName = match.Groups[1].Value;
                 var targetVariable = localMap[targetVariableName];
 
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
-                instOffset = instOffset.Next;
-
-                Console.WriteLine("OFFSET : " + offset.ToString());
-                Console.WriteLine("MATCH INDEX : " + match.Index.ToString());
                 var prev = str.Substring(offset, match.Index - offset);
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldstr, prev));
-                instOffset = instOffset.Next;
-                
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Call,
-                    Net2Resolver.GetMethod(nameof(String), nameof(String.Concat),
-                    new Type[] { typeof(string), typeof(string) })));
-                instOffset = instOffset.Next;
 
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Stloc, interpolatedVariable));
-                instOffset = instOffset.Next;
+                // loc = loc + prev
+                cursor.Emit(
+                    ilgen.Create(OpCodes.Ldloc, interpolatedVariable),
+                    ilgen.Create(OpCodes.Ldstr, prev),
+                    ilgen.CreateCallStringConcat(),
+                    ilgen.Create(OpCodes.Stloc, interpolatedVariable));
 
-
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
-                instOffset = instOffset.Next;
-
+                // loc = loc + capturedVar.ToString()
+                cursor.Emit(
+                    ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
                 if (targetVariable.VariableType.IsValueType)
                 {
-                    ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldloc, targetVariable));
-                    instOffset = instOffset.Next;
-                    ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Box, targetVariable.VariableType));
+                    // (object)capturedVar
+                    cursor.Emit(
+                        ilgen.Create(OpCodes.Ldloc, targetVariable),
+                        ilgen.Create(OpCodes.Box, targetVariable.VariableType));
                 }
                 else
-                    ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldloc, targetVariable));
-
-                instOffset = instOffset.Next;
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Callvirt,
+                    cursor.Emit(ilgen.Create(OpCodes.Ldloc, targetVariable));
+                cursor.Emit(ilgen.Create(OpCodes.Callvirt,
                     Net2Resolver.GetMethod(nameof(Object), nameof(Object.ToString))));
-                instOffset = instOffset.Next;
-
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Call,
-                    Net2Resolver.GetMethod(nameof(String), nameof(String.Concat),
-                    new Type[] { typeof(string), typeof(string) })));
-                instOffset = instOffset.Next;
-
-                ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Stloc, interpolatedVariable));
-                instOffset = instOffset.Next;
-                
-                Console.WriteLine(match.Groups[1].Value);
+                cursor.Emit(ilgen.CreateCallStringConcat());
+                cursor.Emit(ilgen.Create(OpCodes.Stloc, interpolatedVariable));
 
                 offset = match.Index + match.Length;
             }
 
-            ilgen.InsertAfter(instOffset, ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
+            if (matches.Count == 0)
+                return false;
+
+            cursor.Emit(ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
+            return true;
         }
     }
 }
