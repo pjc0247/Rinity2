@@ -15,7 +15,7 @@ namespace RiniSharp.Aspects.Class
     [AspectTarget(typeof(NotifyChangeAttribute))]
     class NotifyChange : ClassAspect
     {
-        private void ProcessNotifyChange(PropertyDefinition property)
+        private void InjectNotifyChange(PropertyDefinition property)
         {
             Console.WriteLine($"   [NOTIFY_CHANGE] {property.Name}");
 
@@ -64,7 +64,7 @@ namespace RiniSharp.Aspects.Class
             foreach (var prop in type.Properties)
             {
                 if (prop.SetMethod != null)
-                    ProcessNotifyChange(prop);
+                    InjectNotifyChange(prop);
             }
         }
     }
