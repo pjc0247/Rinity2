@@ -105,6 +105,7 @@ namespace RiniSharp.Aspects.Module
                 offset = match.Index + match.Length;
             }
 
+            // 남은 데이터
             if (offset != str.Length)
             {
                 var prev = str.Substring(offset, str.Length - offset);

@@ -49,6 +49,7 @@ namespace RiniSharp.Aspects.Class
                 ilgen.Create(OpCodes.Ldloc, localPropertyChangedHandler),
                 ilgen.Create(OpCodes.Brfalse, method.GetTail()));
 
+            // this.propertyChanged.Invoke(this, new PropertyChangingEventArgs(propertyName));
             cursor.EmitBefore(
                 ilgen.Create(OpCodes.Ldloc, localPropertyChangedHandler),
 
