@@ -15,6 +15,9 @@ namespace RiniSharp.WvPatterns
             MethodDefinition method,
             WeaveExpr @catch)
         {
+            if (method.HasBody == false)
+                throw new ArgumentException("method does not have a body");
+
             var ilgen = method.Body.GetILProcessor();
 
             var head = method.GetHead();

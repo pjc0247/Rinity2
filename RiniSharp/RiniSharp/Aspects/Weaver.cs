@@ -142,6 +142,10 @@ namespace RiniSharp.Aspects
                 return new WeaveError[] { };
             }
 
+            // TOOD : FIX
+            new Module.DbgHelper().Apply(module);
+            new Module.StringInterpolation().Apply(module);
+
             errors.Clear();
 
             var typesCopy = new TypeDefinition[module.Types.Count];

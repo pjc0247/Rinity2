@@ -68,6 +68,8 @@
     <Compile Include="Aspects\AspectTargetAttribute.cs" />
     <Compile Include="Aspects\Class\ClassAspect.cs" />
     <Compile Include="Aspects\Method\Affinity.cs" />
+    <Compile Include="Aspects\Module\DbgHelper.cs" />
+    <Compile Include="Aspects\Module\StringInterpolation.cs" />
     <Compile Include="Aspects\Property\PropertyAspect.cs" />
     <Compile Include="Aspects\Property\SharedVariable.cs" />
     <Compile Include="Aspects\Method\SupressException.cs" />
@@ -76,9 +78,11 @@
     <Compile Include="Aspects\WeaveException.cs" />
     <Compile Include="AutoInection\AutoInjectionRule.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="ILCursor.cs" />
     <Compile Include="ILTag.cs" />
     <Compile Include="InstructionExt.cs" />
     <Compile Include="LambdaBuilder.cs" />
+    <Compile Include="MDBExt.cs" />
     <Compile Include="MethodExt.cs" />
     <Compile Include="Net2Resolver.cs" />
     <Compile Include="Program.cs" />

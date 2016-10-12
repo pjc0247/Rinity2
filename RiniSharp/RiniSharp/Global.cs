@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Mono.Cecil;
+using Mono.Cecil.Mdb;
 
 namespace RiniSharp
 {
@@ -13,5 +14,7 @@ namespace RiniSharp
         public static ModuleDefinition module;
         public static ModuleDefinition mscorlib;
         public static ModuleDefinition system;
+
+        public static MdbReader mdbReader;
     }
 }

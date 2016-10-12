@@ -11,6 +11,8 @@ using RiniSharpCore.Impl;
 
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Cecil.Mdb;
+using Mono.CompilerServices.SymbolWriter;
 
 using UnityEngine;
 
@@ -29,7 +31,12 @@ namespace RiniSharp
 
             var unityScript = ModuleDefinition.ReadModule(targetPath);
 
+            var mdbPath = "C:\\Users\\hyun\\Documents\\ZinnyTestApp\\RinityTest\\Library\\ScriptAssemblies\\Assembly-CSharp.dll.mdb";
+            var symFile = MonoSymbolFile.ReadSymbolFile(mdbPath);
+            var mdb = new MdbReader(unityScript, symFile);
+
             Global.module = unityScript;
+            Global.mdbReader = mdb;
 
             var mscorlibName = unityScript.AssemblyReferences
                 .Where(x => x.Name.Contains("mscorlib"))

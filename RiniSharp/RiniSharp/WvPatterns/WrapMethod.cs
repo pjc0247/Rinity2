@@ -13,6 +13,9 @@ namespace RiniSharp.WvPatterns
     {
         public static void Apply(MethodDefinition method, WeaveExpr before, WeaveExpr after)
         {
+            if (method.HasBody == false)
+                throw new ArgumentException("method does not have a body");
+
             var ilgen = method.Body.GetILProcessor();
 
             before(ilgen, method.GetHead());

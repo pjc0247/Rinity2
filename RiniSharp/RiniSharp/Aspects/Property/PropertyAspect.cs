@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Mono.Cecil;
+using Mono.Cecil.Mdb;
 
 namespace RiniSharp.Aspects.Property
 {

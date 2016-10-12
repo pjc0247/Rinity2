@@ -12,9 +12,13 @@ namespace RiniSharp.WvPatterns
     class Replace
     {
         public static void Apply(
+            MethodDefinition method,
             Instruction find,
-            MethodDefinition method, WeaveExpr callback)
+            WeaveExpr callback)
         {
+            if (method.HasBody == false)
+                throw new ArgumentException("method does not have a body");
+
             var ilgen = method.Body.GetILProcessor();
 
             var instructionsCopy = new Instruction[method.Body.Instructions.Count];
@@ -28,9 +32,13 @@ namespace RiniSharp.WvPatterns
         }
 
         public static void Apply(
+            MethodDefinition method,
             Func<Instruction, bool> check,
-            MethodDefinition method, WeaveExpr callback)
+            WeaveExpr callback)
         {
+            if (method.HasBody == false)
+                throw new ArgumentException("method does not have a body");
+
             var ilgen = method.Body.GetILProcessor();
 
             var instructionsCopy = new Instruction[method.Body.Instructions.Count];

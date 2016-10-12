@@ -19,6 +19,7 @@ namespace RiniSharp.Aspects.Class
         private void ProcessMethod(TypeDefinition type, MethodDefinition method)
         {
             WvPatterns.Replace.Apply(
+                method,
                 (inst) =>
                 {
                     if (inst.OpCode == OpCodes.Newobj)
@@ -31,7 +32,6 @@ namespace RiniSharp.Aspects.Class
 
                     return false;
                 },
-                method,
                 (ilgen, offset) =>
                 {
                     var poolGetMethod = module.ImportReference(
