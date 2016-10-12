@@ -15,6 +15,13 @@ public class Player {
 var player = new Player();
 ```
 
+__String Interpolation__
+```cs
+int a = 1234;
+
+Debug.Log("a is {{a}}.")
+```
+
 __Dispatch__
 ```cs
 [Dispatch(ThreadType.ThreadPool)]

@@ -105,6 +105,17 @@ namespace RiniSharp.Aspects.Module
                 offset = match.Index + match.Length;
             }
 
+            if (offset != str.Length)
+            {
+                var prev = str.Substring(offset, str.Length - offset);
+
+                cursor.Emit(
+                    ilgen.Create(OpCodes.Ldloc, interpolatedVariable),
+                    ilgen.Create(OpCodes.Ldstr, prev),
+                    ilgen.CreateCallStringConcat(),
+                    ilgen.Create(OpCodes.Stloc, interpolatedVariable));
+            }
+
             cursor.Emit(ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
             return true;
         }
