@@ -54,12 +54,13 @@ namespace RiniSharp.Aspects.Module
             if (matches.Count == 0)
                 return false;
 
-            Dictionary<string, VariableDefinition> localMap = new Dictionary<string, VariableDefinition>();
+            var localMap = new Dictionary<string, VariableDefinition>();
+            var propertyMap = new Dictionary<string, PropertyDefinition>();
 
             foreach(var variable in method.Body.Variables)
-            {
                 localMap[variable.GetVariableName(method)] = variable;
-            }
+            foreach (var property in method.DeclaringType.Properties)
+                propertyMap[property.Name] = property;
 
             var interpolatedVariable = new VariableDefinition(Global.module.TypeSystem.String);
             method.Body.Variables.Add(interpolatedVariable);
@@ -74,7 +75,12 @@ namespace RiniSharp.Aspects.Module
             foreach (Match match in matches)
             {
                 var targetVariableName = match.Groups[1].Value;
-                var targetVariable = localMap[targetVariableName];
+                ILdable targetVariable = null;
+
+                if (localMap.ContainsKey(targetVariableName))
+                    targetVariable = new VariableLd(localMap[targetVariableName]);
+                else if (propertyMap.ContainsKey(targetVariableName))
+                    targetVariable = new PropertyLd(propertyMap[targetVariableName]);
 
                 var prev = str.Substring(offset, match.Index - offset);
 
@@ -88,15 +94,15 @@ namespace RiniSharp.Aspects.Module
                 // loc = loc + capturedVar.ToString()
                 cursor.Emit(
                     ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
-                if (targetVariable.VariableType.IsValueType)
+                if (targetVariable.type.IsValueType)
                 {
                     // (object)capturedVar
-                    cursor.Emit(
-                        ilgen.Create(OpCodes.Ldloc, targetVariable),
-                        ilgen.Create(OpCodes.Box, targetVariable.VariableType));
+                    cursor.Emit(targetVariable.Ld(ilgen));
+                    cursor.Emit(ilgen.Create(OpCodes.Box, targetVariable.type));
                 }
                 else
-                    cursor.Emit(ilgen.Create(OpCodes.Ldloc, targetVariable));
+                    cursor.Emit(targetVariable.Ld(ilgen));
+
                 cursor.Emit(ilgen.Create(OpCodes.Callvirt,
                     Net2Resolver.GetMethod(nameof(Object), nameof(Object.ToString))));
                 cursor.Emit(ilgen.CreateCallStringConcat());

@@ -83,6 +83,7 @@
     <Compile Include="InstructionExt.cs" />
     <Compile Include="InstructionGeneratorExt.cs" />
     <Compile Include="LambdaBuilder.cs" />
+    <Compile Include="Ldable.cs" />
     <Compile Include="MDBExt.cs" />
     <Compile Include="MethodExt.cs" />
     <Compile Include="Net2Resolver.cs" />
