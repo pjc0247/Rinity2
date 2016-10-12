@@ -23,15 +23,16 @@ namespace RiniSharp
         static void Main(string[] args)
         {
             var targetPath = "C:\\Users\\hyun\\Documents\\ZinnyTestApp\\RinityTest\\Library\\ScriptAssemblies\\Assembly-CSharp.dll";
+            var mdbPath = "C:\\Users\\hyun\\Documents\\ZinnyTestApp\\RinityTest\\Library\\ScriptAssemblies\\Assembly-CSharp.dll.mdb";
 
             if (args.Length != 0)
             {
                 targetPath = args[0];
+                mdbPath = args[0] + ".mdb";
             }
 
             var unityScript = ModuleDefinition.ReadModule(targetPath);
-
-            var mdbPath = "C:\\Users\\hyun\\Documents\\ZinnyTestApp\\RinityTest\\Library\\ScriptAssemblies\\Assembly-CSharp.dll.mdb";
+            
             var symFile = MonoSymbolFile.ReadSymbolFile(mdbPath);
             var mdb = new MdbReader(unityScript, symFile);
 
