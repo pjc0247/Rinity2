@@ -33,10 +33,10 @@ namespace RiniSharp.Aspects
             AddMethodAspect<SuppressException>();
             AddMethodAspect<Dispatch>();
 
+            AddPropertyAspect<SharedVariable>();
+
             AddClassAspect<NotifyChange>();
             AddClassAspect<Recycle>();
-
-            AddPropertyAspect<SharedVariable>();
         }
 
         public void AddMethodAspect<T>()

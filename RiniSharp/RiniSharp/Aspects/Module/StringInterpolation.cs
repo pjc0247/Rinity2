@@ -47,7 +47,7 @@ namespace RiniSharp.Aspects.Module
         private bool Interpolate(MethodDefinition method, ILProcessor ilgen, ILCursor cursor)
         {
             var str = (string)cursor.current.Operand;
-            var regex = new Regex("{{([a-zA-Z_0_9@])}}");
+            var regex = new Regex("{{([a-zA-Z_0_9@]+)}}");
 
             var matches = regex.Matches(str);
 
