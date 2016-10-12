@@ -49,12 +49,16 @@ namespace RiniSharp.Aspects.Module
             var str = (string)cursor.current.Operand;
             var regex = new Regex("{{([a-zA-Z_0_9@])}}");
 
+            var matches = regex.Matches(str);
+
+            if (matches.Count == 0)
+                return false;
+
             Dictionary<string, VariableDefinition> localMap = new Dictionary<string, VariableDefinition>();
 
             foreach(var variable in method.Body.Variables)
             {
                 localMap[variable.GetVariableName(method)] = variable;
-                Console.WriteLine(variable + " : " + variable.GetVariableName(method));
             }
 
             var interpolatedVariable = new VariableDefinition(Global.module.TypeSystem.String);
@@ -67,7 +71,6 @@ namespace RiniSharp.Aspects.Module
                 ilgen.Create(OpCodes.Ldstr, ""),
                 ilgen.Create(OpCodes.Stloc, interpolatedVariable));
 
-            var matches = regex.Matches(str);
             foreach (Match match in matches)
             {
                 var targetVariableName = match.Groups[1].Value;
@@ -101,9 +104,6 @@ namespace RiniSharp.Aspects.Module
 
                 offset = match.Index + match.Length;
             }
-
-            if (matches.Count == 0)
-                return false;
 
             cursor.Emit(ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
             return true;
