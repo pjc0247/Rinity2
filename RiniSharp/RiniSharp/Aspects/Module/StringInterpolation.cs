@@ -56,11 +56,14 @@ namespace RiniSharp.Aspects.Module
 
             var localMap = new Dictionary<string, VariableDefinition>();
             var propertyMap = new Dictionary<string, PropertyDefinition>();
+            var fieldMap = new Dictionary<string, FieldDefinition>();
 
-            foreach(var variable in method.Body.Variables)
+            foreach (var variable in method.Body.Variables)
                 localMap[variable.GetVariableName(method)] = variable;
             foreach (var property in method.DeclaringType.Properties)
                 propertyMap[property.Name] = property;
+            foreach (var field in method.DeclaringType.Fields)
+                fieldMap[field.Name] = field;
 
             var interpolatedVariable = new VariableDefinition(Global.module.TypeSystem.String);
             method.Body.Variables.Add(interpolatedVariable);
@@ -81,6 +84,8 @@ namespace RiniSharp.Aspects.Module
                     targetVariable = new VariableLd(localMap[targetVariableName]);
                 else if (propertyMap.ContainsKey(targetVariableName))
                     targetVariable = new PropertyLd(propertyMap[targetVariableName]);
+                else if (fieldMap.ContainsKey(targetVariableName))
+                    targetVariable = new FieldLd(fieldMap[targetVariableName]);
 
                 var prev = str.Substring(offset, match.Index - offset);
 
