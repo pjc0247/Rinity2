@@ -5,7 +5,22 @@ __문자열 보간__ 기능은 문자열 리터럴 사이에 여러개의 변수
 (C# 6.0의 문자열 보간의 하위 호환 버전입니다.)
 
 ```cs
+int playerHp = 100;
 
+Debug.Log("Player HP : {{playerHp}}");
+```
+
+보간은 런타임에 문자열 치환으로 수행되지 않습니다. 컴파일 타임에 보간 코드가 생성됩니다.
+
+```cs
+var str = "Player HP : {{playerHp}}";
+
+// 문자열 보간 기능은 이런 방식으로 구현되지 않았으며,
+// 아래와 같이 동작합니다.
+str = str.Replace("{{playerHp}}", playerHp.ToString());
+
+// 컴파일 타임에 자동으로 아래와 같은 코드로 교체됩니다.
+str = "Player HP : " + playerHp.ToString();
 ```
 
 바인딩 할 수 있는 값
