@@ -14,6 +14,7 @@ namespace RiniSharp
         TypeReference type { get; }
 
         Instruction[] Ld(ILProcessor ilgen);
+        Instruction[] Lda(ILProcessor ilgen);
     }
 
     class FieldLd : ILdable
@@ -44,6 +45,22 @@ namespace RiniSharp
 
             return insts.ToArray();
         }
+        public Instruction[] Lda(ILProcessor ilgen)
+        {
+            List<Instruction> insts = new List<Instruction>();
+
+            if (field.IsStatic)
+            {
+                insts.Add(ilgen.Create(OpCodes.Ldsflda, field));
+            }
+            else
+            {
+                insts.Add(ilgen.Create(OpCodes.Ldarg_0));
+                insts.Add(ilgen.Create(OpCodes.Ldflda, field));
+            }
+
+            return insts.ToArray();
+        }
     }
 
     class PropertyLd : ILdable
@@ -67,6 +84,18 @@ namespace RiniSharp
 
             return insts.ToArray();
         }
+        public Instruction[] Lda(ILProcessor ilgen)
+        {
+            List<Instruction> insts = new List<Instruction>();
+
+            insts.Add(ilgen.Create(OpCodes.Ldarg_0));
+            insts.Add(ilgen.Create(OpCodes.Callvirt, property.GetMethod));
+
+            if (type.IsValueType)
+                insts.Add(ilgen.Create(OpCodes.Box, property.PropertyType));
+
+            return insts.ToArray();
+        }
     }
 
     class VariableLd : ILdable
@@ -86,6 +115,14 @@ namespace RiniSharp
             List<Instruction> insts = new List<Instruction>();
 
             insts.Add(ilgen.Create(OpCodes.Ldloc, variable));
+
+            return insts.ToArray();
+        }
+        public Instruction[] Lda(ILProcessor ilgen)
+        {
+            List<Instruction> insts = new List<Instruction>();
+
+            insts.Add(ilgen.Create(OpCodes.Ldloca, variable));
 
             return insts.ToArray();
         }

@@ -93,28 +93,45 @@ namespace RiniSharp.Aspects.Module
                     ilgen.Create(OpCodes.Ldstr, prev),
                     ilgen.CreateCallStringConcat());
 
-                // loc = loc + capturedVar.ToString()
-                if (targetVariable.type.IsValueType)
-                {
-                    // (object)capturedVar
-                    cursor.Emit(targetVariable.Ld(ilgen));
-                    cursor.Emit(ilgen.Create(OpCodes.Box, targetVariable.type));
-                }
-                else
-                    cursor.Emit(targetVariable.Ld(ilgen));
-
+                bool toStringDirect = false;
                 try
                 {
                     var resolvedTargetType = targetVariable.type.Resolve();
 
-                    cursor.Emit(ilgen.Create(OpCodes.Call,
-                        method.Module.Import(resolvedTargetType.Methods.First(x => x.Name == nameof(Object.ToString)))));
+                    if (resolvedTargetType.IsSealed ||
+                        resolvedTargetType.IsValueType)
+                    {
+                        var toStringMethod = method.Module
+                        .Import(resolvedTargetType.Methods.First(x => x.Name == nameof(Object.ToString)));
+
+                        if (targetVariable.type.IsValueType)
+                            cursor.Emit(targetVariable.Lda(ilgen));
+                        else
+                            cursor.Emit(targetVariable.Ld(ilgen));
+
+                        cursor.Emit(ilgen.Create(OpCodes.Call, toStringMethod));
+
+                        toStringDirect = true;
+                    }
                 }
-                catch(Exception e)
+                catch(Exception e) { }
+
+                if (toStringDirect == false)
                 {
+                    // loc = loc + capturedVar.ToString()
+                    if (targetVariable.type.IsValueType)
+                    {
+                        // (object)capturedVar
+                        cursor.Emit(targetVariable.Ld(ilgen));
+                        cursor.Emit(ilgen.Create(OpCodes.Box, targetVariable.type));
+                    }
+                    else
+                        cursor.Emit(targetVariable.Ld(ilgen));
+
                     cursor.Emit(ilgen.Create(OpCodes.Callvirt,
                         Net2Resolver.GetMethod(nameof(Object), nameof(Object.ToString))));
                 }
+
                 cursor.Emit(ilgen.CreateCallStringConcat());
 
                 offset = match.Index + match.Length;
