@@ -72,8 +72,7 @@ namespace RiniSharp.Aspects.Module
             var instOffset = cursor.current;
 
             cursor.Emit(
-                ilgen.Create(OpCodes.Ldstr, ""),
-                ilgen.Create(OpCodes.Stloc, interpolatedVariable));
+                ilgen.Create(OpCodes.Ldstr, ""));
 
             foreach (Match match in matches)
             {
@@ -91,14 +90,10 @@ namespace RiniSharp.Aspects.Module
 
                 // loc = loc + prev
                 cursor.Emit(
-                    ilgen.Create(OpCodes.Ldloc, interpolatedVariable),
                     ilgen.Create(OpCodes.Ldstr, prev),
-                    ilgen.CreateCallStringConcat(),
-                    ilgen.Create(OpCodes.Stloc, interpolatedVariable));
+                    ilgen.CreateCallStringConcat());
 
                 // loc = loc + capturedVar.ToString()
-                cursor.Emit(
-                    ilgen.Create(OpCodes.Ldloc, interpolatedVariable));
                 if (targetVariable.type.IsValueType)
                 {
                     // (object)capturedVar
@@ -111,10 +106,11 @@ namespace RiniSharp.Aspects.Module
                 cursor.Emit(ilgen.Create(OpCodes.Callvirt,
                     Net2Resolver.GetMethod(nameof(Object), nameof(Object.ToString))));
                 cursor.Emit(ilgen.CreateCallStringConcat());
-                cursor.Emit(ilgen.Create(OpCodes.Stloc, interpolatedVariable));
 
                 offset = match.Index + match.Length;
             }
+
+            cursor.Emit(ilgen.Create(OpCodes.Stloc, interpolatedVariable));
 
             // 남은 데이터
             if (offset != str.Length)
