@@ -22,13 +22,12 @@ namespace RiniSharpCore.Impl
             handlers = new Dictionary<string, Action<IPubSubMessage>>();
         }
 
-        public static void Subscribe<T>(string channel, Action<T> handler)
-            where T : IPubSubMessage
+        public static void Subscribe(string channel, Action<IPubSubMessage> handler)
         {
             if (handlers.ContainsKey(channel) == false)
-                handlers[channel] = (_) => handler((T)_);
+                handlers[channel] = handler;
             else
-                handlers[channel] += (_) => handler((T)_);
+                handlers[channel] += handler;
         }
         public static void Publish<T>(string channel, T message)
             where T : IPubSubMessage
@@ -36,12 +35,24 @@ namespace RiniSharpCore.Impl
             if (handlers.ContainsKey(channel) == false)
                 return;
 
-            handlers[channel].Invoke(message);
+            handlers[channel]?.Invoke(message);
         }
 
-        public static void SubscribeNotifyChange(string variableName, Action<NotifyChangeMessage> handler)
+        public static void Unsubscribe(string channel, Action<IPubSubMessage> handler)
+        {
+            if (handlers.ContainsKey(channel) == false)
+                return;
+
+            handlers[channel] -= handler;
+        }
+
+        public static void SubscribeNotifyChange(string variableName, Action<IPubSubMessage> handler)
         {
             Subscribe("sharedvar." + variableName, handler);
+        }
+        public static void UnsubscribeNotifyChange(string variableName, Action<IPubSubMessage> handler)
+        {
+            Unsubscribe("sharedvar." + variableName, handler);
         }
     }
 }
