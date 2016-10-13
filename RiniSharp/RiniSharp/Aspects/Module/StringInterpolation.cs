@@ -13,11 +13,13 @@ using Mono.CompilerServices.SymbolWriter;
 
 namespace RiniSharp.Aspects.Module
 {
+    using WvPatterns;
+
     class StringInterpolation
     {
         public void Apply(ModuleDefinition module)
         {
-            foreach (var type in module.Types)
+            module.EachTypes((type) =>
             {
                 foreach (var method in type.Methods)
                 {
@@ -41,7 +43,7 @@ namespace RiniSharp.Aspects.Module
                         });
 
                 }
-            }
+            });
         }
 
         private bool Interpolate(MethodDefinition method, ILProcessor ilgen, ILCursor cursor)
