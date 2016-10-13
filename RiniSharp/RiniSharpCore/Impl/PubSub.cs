@@ -38,5 +38,10 @@ namespace RiniSharpCore.Impl
 
             handlers[channel].Invoke(message);
         }
+
+        public static void SubscribeNotifyChange(string variableName, Action<NotifyChangeMessage> handler)
+        {
+            Subscribe("sharedvar." + variableName, handler);
+        }
     }
 }
