@@ -36,6 +36,7 @@ namespace RiniSharp
             var symFile = MonoSymbolFile.ReadSymbolFile(mdbPath);
             var mdb = new MdbReader(unityScript, symFile);
 
+            Global.output = new Output();
             Global.module = unityScript;
             Global.mdbReader = mdb;
 
@@ -49,23 +50,19 @@ namespace RiniSharp
                 .First();
             Global.system = unityScript.AssemblyResolver.Resolve(systemName).MainModule;
 
-            Console.WriteLine(unityScript);
-            Console.WriteLine(Global.mscorlib + "  " + Global.mscorlib.RuntimeVersion);
-            Console.WriteLine(Global.system + "  " + Global.system.RuntimeVersion);
-
             var weaver = new Aspects.Weaver();
 
             var errors = weaver.ProcessModule(unityScript);
 
-            foreach(var error in errors)
-            {
-                Console.WriteLine(error);
-            }
-                        
             unityScript.Write("tmp.dll");
             unityScript.Dispose();
 
             System.IO.File.Replace("tmp.dll", targetPath, null);
+
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(Global.output);
+
+            Console.Write(json);
         }
     }
 }
+    

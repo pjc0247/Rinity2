@@ -17,8 +17,6 @@ namespace RiniSharp.Aspects.Method
     {
         public override void Apply(MethodDefinition method, CustomAttribute attr)
         {
-            Console.WriteLine($"   [DISPATCH] {method.FullName}");
-
             var ilgen = method.Body.GetILProcessor();
             var lambda = new LambdaBuilder(method, ilgen);
 

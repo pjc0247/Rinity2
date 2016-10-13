@@ -19,8 +19,6 @@ namespace RiniSharp.Aspects.Method
     {
         public override void Apply(MethodDefinition method, CustomAttribute attr)
         {
-            Console.WriteLine($"   [TRACE] {method.FullName}");
-
             var beginMethod = typeof(Profiler).GetMethods()
                 .Where(x => x.Name == nameof(Profiler.BeginSample))
                 .Where(x => x.GetParameters().Length == 1)

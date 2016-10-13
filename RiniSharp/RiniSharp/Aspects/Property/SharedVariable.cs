@@ -49,8 +49,6 @@ namespace RiniSharp.Aspects.Property
 
         public override void Apply(PropertyDefinition property, CustomAttribute attr)
         {
-            Console.WriteLine($"   [SHARED_VARIABLE] {property.FullName}");
-
             var channel = (string)attr.ConstructorArguments[0].Value;
 
             if (property.GetMethod != null)

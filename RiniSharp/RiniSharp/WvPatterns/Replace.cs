@@ -17,7 +17,8 @@ namespace RiniSharp.WvPatterns
             WeaveExpr callback)
         {
             if (method.HasBody == false)
-                throw new ArgumentException("method does not have a body");
+                return;
+            //throw new ArgumentException("method does not have a body");
 
             var ilgen = method.Body.GetILProcessor();
 
@@ -37,7 +38,8 @@ namespace RiniSharp.WvPatterns
             WeaveExpr callback)
         {
             if (method.HasBody == false)
-                throw new ArgumentException("method does not have a body");
+                return;
+                //throw new ArgumentException("method does not have a body");
 
             var ilgen = method.Body.GetILProcessor();
 

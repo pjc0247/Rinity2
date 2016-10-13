@@ -17,8 +17,6 @@ namespace RiniSharp.Aspects.Class
     {
         private void InjectNotifyChange(PropertyDefinition property)
         {
-            Console.WriteLine($"   [NOTIFY_CHANGE] {property.Name}");
-
             var method = property.SetMethod;
 
             var ilgen = method.Body.GetILProcessor();

@@ -68,8 +68,6 @@ namespace RiniSharp.Aspects.Class
 
         public override void Apply(TypeDefinition type, CustomAttribute attr)
         {
-            Console.WriteLine($"[Recycle]");
-
             foreach(var _type in module.Types)
             {
                 foreach (var method in _type.Methods)

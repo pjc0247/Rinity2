@@ -17,8 +17,6 @@ namespace RiniSharp.Aspects.Method
     {
         public override void Apply(MethodDefinition method, CustomAttribute attr)
         {
-            Console.WriteLine($"   [SUPPRESS_EXCEPTION] {method.FullName}");
-
             if (method.ReturnType != module.TypeSystem.Void)
                 throw new WeaveException("return type must be void");
 

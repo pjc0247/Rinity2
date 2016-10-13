@@ -16,5 +16,7 @@ namespace RiniSharp
         public static ModuleDefinition system;
 
         public static MdbReader mdbReader;
+
+        public static Output output;
     }
 }

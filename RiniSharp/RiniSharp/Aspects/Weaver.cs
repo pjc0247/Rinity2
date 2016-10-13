@@ -102,8 +102,6 @@ namespace RiniSharp.Aspects
         }
         private void ProcessType(TypeDefinition type)
         {
-            Console.WriteLine($"[CLASS] {type.Name}");
-
             var methodsCopy = new MethodDefinition[type.Methods.Count];
             type.Methods.CopyTo(methodsCopy, 0);
 
@@ -138,7 +136,7 @@ namespace RiniSharp.Aspects
         {
             if (AssemblyTag.HasTag(module))
             {
-                Console.WriteLine("[HasTag]");
+                Global.output.skipped = true;
                 return new WeaveError[] { };
             }
 

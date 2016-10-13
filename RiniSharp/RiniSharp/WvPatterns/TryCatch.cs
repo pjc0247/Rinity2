@@ -16,7 +16,8 @@ namespace RiniSharp.WvPatterns
             WeaveExpr @catch)
         {
             if (method.HasBody == false)
-                throw new ArgumentException("method does not have a body");
+                return;
+            //throw new ArgumentException("method does not have a body");
 
             var ilgen = method.Body.GetILProcessor();
 
@@ -25,8 +26,6 @@ namespace RiniSharp.WvPatterns
 
             ilgen.Emit(OpCodes.Nop);
             @catch(ilgen, new ILCursor(ilgen, tail));
-
-            Console.WriteLine(tail.Next);
 
             method.Body.ExceptionHandlers.Add(new ExceptionHandler(ExceptionHandlerType.Catch)
             {
