@@ -103,8 +103,18 @@ namespace RiniSharp.Aspects.Module
                 else
                     cursor.Emit(targetVariable.Ld(ilgen));
 
-                cursor.Emit(ilgen.Create(OpCodes.Callvirt,
-                    Net2Resolver.GetMethod(nameof(Object), nameof(Object.ToString))));
+                try
+                {
+                    var resolvedTargetType = targetVariable.type.Resolve();
+
+                    cursor.Emit(ilgen.Create(OpCodes.Call,
+                        method.Module.Import(resolvedTargetType.Methods.First(x => x.Name == nameof(Object.ToString)))));
+                }
+                catch(Exception e)
+                {
+                    cursor.Emit(ilgen.Create(OpCodes.Callvirt,
+                        Net2Resolver.GetMethod(nameof(Object), nameof(Object.ToString))));
+                }
                 cursor.Emit(ilgen.CreateCallStringConcat());
 
                 offset = match.Index + match.Length;
