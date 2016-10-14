@@ -37,7 +37,7 @@ namespace RiniSharpCore.Impl
 
         private static MatchCollection GetMatches(string str)
         {
-            var regex = new Regex("\\[\\[([a-zA-Z_0_9@]+)\\]\\]");
+            var regex = new Regex("\\[\\[([a-zA-Z_0_9@]+)\\s?\\|?\\s?([\\sa-zA-Z_\\-0_9@]*)\\]\\]", RegexOptions.Multiline);
             var matches = regex.Matches(str);
 
             return matches;
@@ -55,8 +55,6 @@ namespace RiniSharpCore.Impl
         }
         public static string Bind(string str)
         {
-            UnityEngine.Debug.Log(str);
-
             var matches = GetMatches(str);
 
             if (matches.Count == 0)
@@ -64,11 +62,16 @@ namespace RiniSharpCore.Impl
 
             foreach(Match match in matches)
             {
+                var defaultString = "";
+
+                if (match.Groups.Count == 3)
+                    defaultString = match.Groups[2].Value;
+
                 var value = SharedVariables.Get<object>(match.Groups[1].Value);
-                var valueStr = value != null ? value.ToString() : "";
+                var valueStr = value != null ? value.ToString() : defaultString;
                 
                 str = str.Replace(
-                    "[[" + match.Groups[1].Value + "]]",
+                    match.ToString(),
                     valueStr);
             }
 
