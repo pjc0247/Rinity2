@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 using System;
@@ -41,8 +41,40 @@ public class BuildSupport
 
         var stdout = process.StandardOutput.ReadToEnd();
         var stderr = process.StandardError.ReadToEnd();
-        UnityEngine.Debug.Log(stdout);
-        UnityEngine.Debug.Log(stderr);
+
+        if (string.IsNullOrEmpty(stderr) == false)
+            UnityEngine.Debug.LogError(stderr);
+
+        var output = JsonUtility.FromJson<Output>(stdout);
+
+        foreach (var error in output.errors)
+            UnityEngine.Debug.LogError(error.message);
+
+        UnityEngine.Debug.Log(
+            "[Rinity2] " +
+            output.errors.Length.ToString() + " Error(s), " +
+            output.warnings.Length.ToString() + " Warning(s), " +
+            output.messages.Length.ToString() + " Message(s).");
+
+        if (output.skipped)
+            UnityEngine.Debug.Log("[Rinity2] Skipped");
+    }
+
+    [Serializable]
+    public class Output
+    {
+        [Serializable]
+        public class Result
+        {
+            public string message;
+        }
+
+        public Result[] errors;
+        public Result[] warnings;
+        public Result[] messages;
+
+        public bool success;
+        public bool skipped;
     }
 
     [MenuItem("Rinity/Force Rebuild")]
@@ -76,7 +108,12 @@ public class BuildSupport
 
         var stdout = process.StandardOutput.ReadToEnd();
         var stderr = process.StandardError.ReadToEnd();
+
+        UnityEngine.Debug.Log(stderr.Length);
+
+        if (string.IsNullOrEmpty(stderr) == false)
+            UnityEngine.Debug.LogError(stderr);
+
         UnityEngine.Debug.Log(stdout);
-        UnityEngine.Debug.Log(stderr);
     }
 }

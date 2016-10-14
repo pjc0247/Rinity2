@@ -22,10 +22,17 @@ namespace Rinity.AutoBindings
         {
             toggle = GetComponent<Toggle>();
 
+            // GET
             AddHandler(targetVariableName, (_message) =>
             {
                 var message = (NotifyChangeMessage)_message;
                 toggle.isOn = SharedVariables.Get<bool>(targetVariableName);
+            });
+
+            // SET
+            toggle.onValueChanged.AddListener((isOn) =>
+            {
+                SharedVariables.Set<bool>(targetVariableName, isOn);
             });
         }
     }
