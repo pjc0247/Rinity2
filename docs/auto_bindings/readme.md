@@ -75,7 +75,7 @@ class Player : MonoBehaviour {
 Rinity는 작성한 게임 스크립트에서 자동으로 SharedVariables 목록을 생성합니다. 
 ```
 
-<br>
+<br><br>
 만약 `Player` 내부에 프로퍼티를 추가하는 방법이 싫다면 아래와 같이 값에 접근할 수 있습니다.
 ```cs
 if (SharedVariables.Get("option_enableSound"))
@@ -84,5 +84,5 @@ if (SharedVariables.Get("option_enableSound"))
 
 응용하기
 ----
-SharedVariables는 전역적으로 공유되는 값이기 때문에 두개의 __Toggle__에 동일한 변수를 바인딩하면 아래와 같은 효과도 만들 수 있습니다.
+SharedVariables는 전역적으로 공유되는 값이기 때문에 두개의 __Toggle__에 동일한 변수를 바인딩하면 아래와 같은 효과도 만들 수 있습니다.<br>
 ![step3](step3.gif)<br>
