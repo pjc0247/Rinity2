@@ -105,6 +105,8 @@ namespace MiniScript
         {
             if (a is int)
                 return (int)a + Convert.ToInt32(b);
+            if (a is string)
+                return (string)a + b.ToString();
 
             return null;
         }
@@ -175,14 +177,7 @@ namespace MiniScript
             if (current != null && parent != null)
             {
                 if ((parent).Push(current))
-                {
-                    Console.WriteLine("Up");
                     current = current.parent;
-                }
-                else
-                {
-                    //current.parent = parent;
-                }
 
                 current.raw = node.ToString();
             }
@@ -210,7 +205,7 @@ namespace MiniScript
         {
 
             var src = @"
-11 + a + 33 - 5 * 5;
+""a"" + 5;
 ";
 
             var options =
