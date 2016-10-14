@@ -11,10 +11,8 @@ using RiniSharpCore.Impl;
 
 namespace Rinity.AutoBindings
 {
-    public class RinityToggle : AutoBindingBase
+    public class RinityToggle : SingleTargetedBinding
     {
-        public string targetVariableName;
-
         private Toggle toggle { get; set; }
         private Action<IPubSubMessage> handler { get; set; }
 
