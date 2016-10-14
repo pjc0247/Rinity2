@@ -18,7 +18,7 @@ namespace RiniSharpCore.Impl
         public static T Get<T>(string key)
         {
             if (pool.ContainsKey(key))
-                return (T)pool[key];
+                return (T)Convert.ChangeType(pool[key], typeof(T));
 
             if (typeof(T) == typeof(string))
                 return (T)(object)"";
