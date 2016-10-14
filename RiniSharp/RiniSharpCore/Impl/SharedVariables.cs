@@ -19,7 +19,11 @@ namespace RiniSharpCore.Impl
         {
             if (pool.ContainsKey(key))
                 return (T)pool[key];
-            return default(T);
+
+            if (typeof(T) == typeof(string))
+                return (T)(object)"";
+            else
+                return default(T);
         }
         public static void Set<T>(string key, object val)
         {
@@ -61,7 +65,7 @@ namespace RiniSharpCore.Impl
             foreach(Match match in matches)
             {
                 var value = SharedVariables.Get<object>(match.Groups[1].Value);
-                var valueStr = value != null ? value.ToString() : "INVALID_VALUE";
+                var valueStr = value != null ? value.ToString() : "";
                 
                 str = str.Replace(
                     "[[" + match.Groups[1].Value + "]]",
