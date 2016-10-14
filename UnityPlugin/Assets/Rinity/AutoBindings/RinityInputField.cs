@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 using RiniSharpCore;
@@ -14,6 +15,7 @@ namespace Rinity.AutoBindings
     public class RinityInputField : SingleTargetedBinding
     {
         public bool twoWayBinding;
+        public bool publishOnSubmit;
 
         private InputField input { get; set; }
         private Action<IPubSubMessage> handler { get; set; }
@@ -33,7 +35,10 @@ namespace Rinity.AutoBindings
             }
 
             // SET
-            input.onValueChanged.AddListener((text) =>
+            UnityEvent<string> targetEvent = input.onValueChanged;
+            if (publishOnSubmit)
+                targetEvent = input.onEndEdit;
+            targetEvent.AddListener((text) =>
             {
                 SharedVariables.Set<string>(targetVariableName, text);
             });

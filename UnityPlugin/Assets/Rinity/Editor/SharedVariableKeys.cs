@@ -51,5 +51,12 @@ namespace Rinity.Editor
                 .Select(x => x.key)
                 .ToList();
         }
+        public static List<string> GetKeys(Type[] types)
+        {
+            return sharedVars
+                .Where(x => types.Contains(x.property.PropertyType))
+                .Select(x => x.key)
+                .ToList();
+        }
     }
 }
