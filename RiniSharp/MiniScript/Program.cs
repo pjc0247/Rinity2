@@ -21,12 +21,16 @@ namespace MiniScript
         public Node parent;
         public List<Node> children;
 
+        public string raw;
+
         public Node()
         {
             children = new List<Node>();
         }
         public bool Push(Node node)
         {
+            node.parent = this;
+
             Console.WriteLine($"PUSH {this} , {node}");
             children.Add(node);
             return children.Count == maxChildren;
@@ -66,6 +70,12 @@ namespace MiniScript
         {
             if (op == "+")
                 return Op.Add(left.Exec(), right.Exec());
+            if (op == "-")
+                return Op.Sub(left.Exec(), right.Exec());
+            if (op == "*")
+                return Op.Mul(left.Exec(), right.Exec());
+            if (op == "/")
+                return Op.Div(left.Exec(), right.Exec());
 
             return null;
         }
@@ -93,9 +103,29 @@ namespace MiniScript
     {
         public static object Add(object a, object b)
         {
-            Console.WriteLine($"OpADD {a} + {b}");
             if (a is int)
                 return (int)a + Convert.ToInt32(b);
+
+            return null;
+        }
+        public static object Sub(object a, object b)
+        {
+            if (a is int)
+                return (int)a - Convert.ToInt32(b);
+
+            return null;
+        }
+        public static object Mul(object a, object b)
+        {
+            if (a is int)
+                return (int)a * Convert.ToInt32(b);
+
+            return null;
+        }
+        public static object Div(object a, object b)
+        {
+            if (a is int)
+                return (int)a / Convert.ToInt32(b);
 
             return null;
         }
@@ -103,7 +133,7 @@ namespace MiniScript
 
     class Program
     {
-
+        static Node root;
         static void Dive(SyntaxNode node, Node parent)
         {
             Console.WriteLine(node + " / " + node.GetType().ToString());
@@ -112,21 +142,21 @@ namespace MiniScript
 
             if (node is LiteralExpressionSyntax)
             {
-                var literal = new Literal() { parent = parent };
+                var literal = new Literal() {  };
                 literal.value = ((LiteralExpressionSyntax)node).Token.Value;
 
                 current = literal;
             }
             if (node is IdentifierNameSyntax)
             {
-                var ident = new Ident() { parent = parent };
+                var ident = new Ident() {  };
                 ident.id = (string)((IdentifierNameSyntax)node).Identifier.Value;
 
                 current = ident;
             }
             if (node is BinaryExpressionSyntax)
             {
-                var bin = new BinaryExpression() { parent = parent };
+                var bin = new BinaryExpression() {  };
                 bin.op = ((BinaryExpressionSyntax)node).OperatorToken.ValueText;
                 
                 current = bin;
@@ -137,37 +167,50 @@ namespace MiniScript
                 
             }
 
+            foreach (var child in node.ChildNodes())
+            {
+                Dive(child, current == null ? parent : current);
+            }
+
             if (current != null && parent != null)
             {
                 if ((parent).Push(current))
                 {
                     Console.WriteLine("Up");
-                    current = parent.parent;
-                    parent = current;
+                    current = current.parent;
                 }
                 else
                 {
                     //current.parent = parent;
-                    parent = current;
                 }
-            }
 
-            foreach (var child in node.ChildNodes())
-            {
-                Dive(child, parent);
+                current.raw = node.ToString();
             }
         }
 
-        static void Execute(Node node)
+        static void Dump(Node node, Node current, Node parent, int indent = 0)
         {
+            for (int i = 0; i < indent * 2; i++)
+                Console.Write(" ");
+            
+            Console.Write($"{node} / {node.raw}");
 
+            if (node == current)
+                Console.Write(" [Current]");
+            if (node == parent)
+                Console.Write(" [Parent]");
+
+            Console.WriteLine();
+
+            foreach (var child in node.children)
+                Dump(child, current, parent, indent + 1);
         }
 
         static void Main(string[] args)
         {
 
             var src = @"
-11 + a + 33;
+11 + a + 33 - 5 * 5;
 ";
 
             var options =
@@ -182,7 +225,7 @@ namespace MiniScript
 
             Console.WriteLine(syntaxTree.GetRoot().GetType());
 
-            var root = new BlockNode();
+            root = new BlockNode();
             Dive(syntaxTree.GetRoot(), root);
 
 
