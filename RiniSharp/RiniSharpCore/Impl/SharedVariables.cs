@@ -81,6 +81,12 @@ namespace RiniSharpCore.Impl
 
                 var result = script.Exec(match.Groups[1].Value);
 
+                if (result == null)
+                {
+                    UnityEngine.Debug.Log("Got null result with : " + match.Groups[1].Value);
+                    continue;
+                }
+
                 UnityEngine.Debug.Log(match.Groups[1].Value + " : " + result.ToString());
 
                 str = str.Replace(

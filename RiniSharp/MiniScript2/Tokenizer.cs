@@ -13,11 +13,6 @@ namespace MiniScript2
 		{
 			var tokens = new List<string>();
 
-			//공백, 엔터등 제거
-			source = source.Replace(" ", string.Empty);
-            source = source.Replace("\r", string.Empty);
-            source = source.Replace("\n", string.Empty);
-
             //기본 예약어
             var special = "()+-*/%=,?;";
 
@@ -39,13 +34,14 @@ namespace MiniScript2
             if (string.IsNullOrEmpty(trailing) == false)
 			    tokens.Add(trailing);
 
-			return tokens;
+            return tokens.Select(x => x.Trim()).ToList();
 		}
 
         public List<string> GetIdents(string str)
         {
             var regex = new Regex("[a-zA-Z_]+");
-
+            
+            // 임시 구현
             return tokenize(str).Where(x => regex.IsMatch(x)).ToList();
         }
 	}

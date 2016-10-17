@@ -198,6 +198,9 @@ namespace MiniScript2
 			int intRes;
 			float floatRes;
 
+            if (var.StartsWith("\"") && var.EndsWith("\""))
+                return var.Substring(1, var.Length - 2);
+
 			if (int.TryParse(var, out intRes))
 			{
 				return intRes;
