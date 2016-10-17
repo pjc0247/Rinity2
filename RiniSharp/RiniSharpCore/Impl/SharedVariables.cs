@@ -79,19 +79,22 @@ namespace RiniSharpCore.Impl
                 //var value = SharedVariables.Get<object>(match.Groups[1].Value);
                 //var valueStr = value != null ? value.ToString() : defaultString;
 
-                var result = script.Exec(match.Groups[1].Value);
+                object result = null;
+                var expression = match.Groups[1].Value;
 
-                if (result == null)
+                try
                 {
-                    UnityEngine.Debug.Log("Got null result with : " + match.Groups[1].Value);
-                    continue;
+                    result = script.Exec(expression);
+
+                    str = str.Replace(
+                        match.ToString(),
+                        result == null ? "null" : result.ToString());
                 }
-
-                UnityEngine.Debug.Log(match.Groups[1].Value + " : " + result.ToString());
-
-                str = str.Replace(
-                    match.ToString(),
-                    result.ToString());
+                catch(Exception e)
+                {
+                    UnityEngine.Debug.LogError(expression);
+                    UnityEngine.Debug.LogError(e);
+                }
             }
 
             return str;
