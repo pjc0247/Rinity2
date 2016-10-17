@@ -104,7 +104,7 @@ namespace RiniSharp.Aspects.Module
                         resolvedTargetType.IsValueType)
                     {
                         var toStringMethod = method.Module
-                        .Import(resolvedTargetType.Methods.First(x => x.Name == nameof(Object.ToString)));
+                            .Import(resolvedTargetType.Methods.First(x => x.Name == nameof(Object.ToString)));
 
                         if (targetVariable.type.IsValueType)
                             cursor.Emit(targetVariable.Lda(ilgen));

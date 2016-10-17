@@ -15,7 +15,7 @@ namespace MiniScript2
 			interpreter.AddBind("b", -5);
 			interpreter.AddBind("abs", new Func<int, int>(Math.Abs));
 			interpreter.AddBind("max", new Func<int, int, int>(Math.Max));
-			object res = interpreter.Exec("c ?   \"asd\"");
+			object res = interpreter.Exec("c ?   \"a + \"asd\"sd\"");
 
 			Console.WriteLine(res);
 		}

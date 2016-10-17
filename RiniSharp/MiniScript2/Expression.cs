@@ -371,21 +371,30 @@ namespace MiniScript2
 				var l = lhs.Exec(table);
 				var r = rhs.Exec(table);
 
+                if (l is string)
+                {
+                    switch (name)
+                    {
+                        case "op_Addition":
+                            return (string)l + r.ToString();
+                    }
+                }
+
 				if (l is int)
 				{
 					switch (name)
 					{
 						case "op_Multiply":
-							return (int)l * (int)r;
+							return (int)l * Convert.ToInt32(r);
 						case "op_Division":
-							return (int)l / (int)r;
-						case "op_Modulus":
-							return (int)l % (int)r;
-						case "op_Addition":
-							return (int)l + (int)r;
-						case "op_Subtraction":
-							return (int)l - (int)r;
-					}
+							return (int)l / Convert.ToInt32(r);
+                        case "op_Modulus":
+							return (int)l % Convert.ToInt32(r);
+                        case "op_Addition":
+							return (int)l + Convert.ToInt32(r);
+                        case "op_Subtraction":
+							return (int)l - Convert.ToInt32(r);
+                    }
 				}
 
 				if (l is float)
@@ -393,16 +402,16 @@ namespace MiniScript2
 					switch (name)
 					{
 						case "op_Multiply":
-							return (float)l * (float)r;
+                            return (float)l * Convert.ToSingle(r);
 						case "op_Division":
-							return (float)l / (float)r;
-						case "op_Modulus":
-							return (float)l % (float)r;
-						case "op_Addition":
-							return (float)l + (float)r;
-						case "op_Subtraction":
-							return (float)l - (float)r;
-					}
+							return (float)l / Convert.ToSingle(r);
+                        case "op_Modulus":
+							return (float)l % Convert.ToSingle(r);
+                        case "op_Addition":
+							return (float)l + Convert.ToSingle(r);
+                        case "op_Subtraction":
+							return (float)l - Convert.ToSingle(r);
+                    }
 				}
 
 				return l.GetType().GetMethod(name, BindingFlags.Static | BindingFlags.Public).Invoke(null, new object[] { l, r });

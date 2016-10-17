@@ -17,8 +17,25 @@ namespace MiniScript2
             var special = "()+-*/%=,?;";
 
 			int prevIdx = 0;
+            int inStringLiteral = 0;
+
 			for (int i = 0; i < source.Length; i++)
 			{
+                if (source[i] == '"')
+                {
+                    if (inStringLiteral != 0) 
+                    {
+                        if (source[i - 1] == '\\')
+                            ;
+                        else
+                            inStringLiteral = 0;
+                    }
+                    else
+                        inStringLiteral = 1;
+                }
+                if (inStringLiteral != 0)
+                    continue;
+
 				if (special.Contains(source[i]))
 				{
 					if (i > prevIdx)
