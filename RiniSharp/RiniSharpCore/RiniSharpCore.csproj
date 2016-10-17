@@ -49,6 +49,7 @@
     <Compile Include="Impl\ObjectPool.cs" />
     <Compile Include="Impl\PubSub.cs" />
     <Compile Include="Impl\SharedVariables.cs" />
+    <Compile Include="Impl\Unity.cs" />
     <Compile Include="NotifyChangeAttribute.cs" />
     <Compile Include="RecycleAttribute.cs" />
     <Compile Include="SharedVariableAttribute.cs" />

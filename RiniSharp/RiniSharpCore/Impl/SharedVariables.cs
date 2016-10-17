@@ -45,7 +45,7 @@ namespace RiniSharpCore.Impl
         private static MatchCollection GetMatches(string str)
         {
             //var regex = new Regex("\\[\\[([a-zA-Z_0_9@]+)\\s?\\|?\\s?([\\sa-zA-Z_\\-0_9@]*)\\]\\]", RegexOptions.Multiline);
-            var regex = new Regex("\\[\\[(.+)\\]\\]", RegexOptions.Multiline);
+            var regex = new Regex("\\[\\[([^\\]]+)\\]\\]", RegexOptions.Multiline);
             var matches = regex.Matches(str);
 
             return matches;
@@ -66,6 +66,8 @@ namespace RiniSharpCore.Impl
         }
         public static string Bind(string str)
         {
+            Unity.Enter("BindTemplate");
+
             var matches = GetMatches(str);
 
             if (matches.Count == 0)
@@ -84,7 +86,9 @@ namespace RiniSharpCore.Impl
 
                 try
                 {
+                    Unity.Enter("ExecScript");
                     result = script.Exec(expression);
+                    Unity.Leave();
 
                     str = str.Replace(
                         match.ToString(),
@@ -97,6 +101,7 @@ namespace RiniSharpCore.Impl
                 }
             }
 
+            Unity.Leave();
             return str;
         }
     }

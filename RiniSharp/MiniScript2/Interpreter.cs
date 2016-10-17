@@ -21,10 +21,11 @@ namespace MiniScript2
 			external[name] = val;
 		}
 
+
+
 		public object Exec(string source)
 		{
 			var tokens = new Tokenizer().tokenize(source);
-			int prev = 0;
 			var exp = new List<Expression>();
 
             exp.Add(Expression.Create(tokens));
@@ -43,14 +44,23 @@ namespace MiniScript2
 			return Exec(exp);
 		}
 
-		object Exec(List<Expression> expressions)
-		{
-			table.Clear();
+        public Expression Build(string source)
+        {
+            var tokens = new Tokenizer().tokenize(source);
 
-			foreach (var e in external)
-			{
-				table.Add(e.Key, e.Value);
-			}
+            return Expression.Create(tokens);
+        }
+
+        public object Exec(Expression exp)
+        {
+            table = new Dictionary<string, object>(external);
+
+            return exp.Exec(table);
+        }
+
+        object Exec(List<Expression> expressions)
+		{
+            table = new Dictionary<string, object>(external);
 
 			object res = null;
 

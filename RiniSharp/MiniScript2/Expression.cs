@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace MiniScript2
 {
-	abstract class Expression
+	public abstract class Expression
 	{
 		public abstract object Exec(Dictionary<string, object> table);
 
