@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using MiniScript2;
+
 namespace RiniSharpCore.Impl
 {
     public class SharedVariables
     {
         private static Dictionary<string, object> pool { get; set; }
+        private static Interpreter script { get; set; }
 
         static SharedVariables()
         {
             pool = new Dictionary<string, object>();
+            script = new Interpreter();
         }
 
         public static T Get<T>(string key)
@@ -29,6 +33,9 @@ namespace RiniSharpCore.Impl
         {
             pool[key] = val;
 
+            UnityEngine.Debug.Log("AddBind : " + key + " , " + val);
+            script.AddBind(key, val);
+
             PubSub.Publish($"sharedvar.{key}", new NotifyChangeMessage() {
                 newValue = val,
                 variableName = key
@@ -37,7 +44,8 @@ namespace RiniSharpCore.Impl
 
         private static MatchCollection GetMatches(string str)
         {
-            var regex = new Regex("\\[\\[([a-zA-Z_0_9@]+)\\s?\\|?\\s?([\\sa-zA-Z_\\-0_9@]*)\\]\\]", RegexOptions.Multiline);
+            //var regex = new Regex("\\[\\[([a-zA-Z_0_9@]+)\\s?\\|?\\s?([\\sa-zA-Z_\\-0_9@]*)\\]\\]", RegexOptions.Multiline);
+            var regex = new Regex("\\[\\[(.+)\\]\\]", RegexOptions.Multiline);
             var matches = regex.Matches(str);
 
             return matches;
@@ -47,11 +55,14 @@ namespace RiniSharpCore.Impl
         {
             var keys = new List<string>();
             var matches = GetMatches(str);
+            var tk = new Tokenizer();
 
             foreach (Match match in matches)
-                keys.Add(match.Groups[1].Value);
+            {
+                keys.AddRange(tk.GetIdents(match.Groups[1].Value));
+            }
 
-            return keys.ToArray();
+            return keys.Distinct().ToArray();
         }
         public static string Bind(string str)
         {
@@ -62,17 +73,19 @@ namespace RiniSharpCore.Impl
 
             foreach(Match match in matches)
             {
-                var defaultString = "";
+                //if (match.Groups.Count == 3)
+                //    defaultString = match.Groups[2].Value;
 
-                if (match.Groups.Count == 3)
-                    defaultString = match.Groups[2].Value;
+                //var value = SharedVariables.Get<object>(match.Groups[1].Value);
+                //var valueStr = value != null ? value.ToString() : defaultString;
 
-                var value = SharedVariables.Get<object>(match.Groups[1].Value);
-                var valueStr = value != null ? value.ToString() : defaultString;
-                
+                var result = script.Exec(match.Groups[1].Value);
+
+                UnityEngine.Debug.Log(match.Groups[1].Value + " : " + result.ToString());
+
                 str = str.Replace(
                     match.ToString(),
-                    valueStr);
+                    result.ToString());
             }
 
             return str;
