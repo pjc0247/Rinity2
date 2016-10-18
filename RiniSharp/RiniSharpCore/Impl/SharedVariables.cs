@@ -33,13 +33,28 @@ namespace RiniSharpCore.Impl
         {
             pool[key] = val;
 
-            UnityEngine.Debug.Log("AddBind : " + key + " , " + val);
             script.AddBind(key, val);
 
             PubSub.Publish($"sharedvar.{key}", new NotifyChangeMessage() {
                 newValue = val,
                 variableName = key
             });
+        }
+        public static void Remove(string key)
+        {
+            pool.Remove(key);
+        }
+        public static void Clear()
+        {
+            foreach (var key in pool.Keys)
+            {
+                PubSub.Publish($"sharedvar.{key}", new NotifyRemoveMessage()
+                {
+                    variableName = key
+                });
+            }
+
+            pool.Clear();
         }
 
         private static MatchCollection GetMatches(string str)
