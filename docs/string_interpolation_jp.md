@@ -1,7 +1,7 @@
 String Interpolation
 ====
 
-__StringInterpolation__ enables you to write more clear code when you needs to concatenate serveral values above string literals.<br>
+__StringInterpolation__ enables you to write more clear code when you needs to concatenate serveral variables above string literals.<br>
 (Likes a string interpolation feature in C# 6.0, but it provides less features and error-prone.) 
 
 ```cs
