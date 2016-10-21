@@ -99,6 +99,7 @@
     <Compile Include="Aspects\Method\Dispatch.cs" />
     <Compile Include="Aspects\Method\MethodAspect.cs" />
     <Compile Include="Aspects\Weaver.cs" />
+    <Compile Include="TypeExt.cs" />
     <Compile Include="WvPatterns\EnumerateProperties.cs" />
     <Compile Include="WvPatterns\EnumerateTypesExt.cs" />
     <Compile Include="WvPatterns\Replace.cs" />

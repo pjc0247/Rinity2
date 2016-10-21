@@ -14,6 +14,9 @@ namespace RiniSharp
         private ILProcessor ilProcessor { get; set; }
         private Instruction cursor { get; set; }
 
+        // 가상의 Head -1 를 가리키는 상태를 나타냄
+        private bool emptyHead { get; set; }
+
         public Instruction current
         {
             get
@@ -34,6 +37,12 @@ namespace RiniSharp
             this.ilProcessor = ilProcessor;
             this.cursor = ilProcessor.Body.Instructions.First();
         }
+        public ILCursor(ILProcessor ilProcessor, bool emptyHead)
+        {
+            this.ilProcessor = ilProcessor;
+            this.cursor = ilProcessor.Body.Instructions.First();
+            this.emptyHead = true;
+        }
         public ILCursor(ILProcessor ilProcessor, Instruction cursor)
         {
             this.ilProcessor = ilProcessor;
@@ -47,8 +56,17 @@ namespace RiniSharp
         /// <param name="inst">명렁어</param>
         public void Emit(Instruction inst)
         {
-            ilProcessor.InsertAfter(cursor, inst);
-            cursor = cursor.Next;
+            if (emptyHead)
+            {
+                ilProcessor.InsertBefore(cursor, inst);
+                cursor = inst;
+                emptyHead = false;
+            }
+            else
+            {
+                ilProcessor.InsertAfter(cursor, inst);
+                cursor = cursor.Next;
+            }
         }
         public void Emit(params Instruction[] insts)
         {
