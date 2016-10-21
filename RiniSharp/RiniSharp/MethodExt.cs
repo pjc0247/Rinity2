@@ -11,6 +11,12 @@ namespace RiniSharp
 {
     static class MethodExt
     {
+        /// <summary>
+        /// 주어진 메소드와 동일한 메소드를 만들어 반환한다.
+        /// </summary>
+        /// <param name="method">복사할 메소드</param>
+        /// <param name="name">새로운 이름</param>
+        /// <returns>새로 만들어진 메소드</returns>
         public static MethodDefinition Clone(
             this MethodDefinition method,
             string name)
@@ -32,6 +38,10 @@ namespace RiniSharp
             return newMethod;
         }
 
+        /// <summary>
+        /// 메소드의 IL 코드를 전부 삭제한다.
+        /// </summary>
+        /// <param name="method">메소드</param>
         public static void ClearBody(
             this MethodDefinition method)
         {

@@ -112,7 +112,7 @@ namespace RiniSharp
             cursor = next;
         }
 
-
+        #region SHORTCUTS
         public void LdThis(ILProcessor ilgen)
         {
             Emit(ilgen.Create(OpCodes.Ldarg_0));
@@ -129,5 +129,10 @@ namespace RiniSharp
         {
             Emit(ilgen.Create(OpCodes.Callvirt, method));
         }
+        public void Dup(ILProcessor ilgen)
+        {
+            Emit(ilgen.Create(OpCodes.Dup));
+        }
+        #endregion // SHORTCUTS
     }
 }

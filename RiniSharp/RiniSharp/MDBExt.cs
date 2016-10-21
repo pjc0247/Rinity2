@@ -12,6 +12,12 @@ namespace RiniSharp
 {
     static class MDBExt
     {
+        /// <summary>
+        /// 주어진 Instruction의 원래 코드 라인을 가져온다.
+        /// </summary>
+        /// <param name="inst"></param>
+        /// <param name="method">명령이 담겨있던 메소드</param>
+        /// <returns>코드 라인</returns>
         public static int GetCodeLine(this Instruction inst, MethodDefinition method)
         {
             if (inst == null)
@@ -26,6 +32,12 @@ namespace RiniSharp
                 .StartLine;
         }
 
+        /// <summary>
+        /// 주어진 변수의 원래 이름을 가져온다.
+        /// </summary>
+        /// <param name="var"></param>
+        /// <param name="method">변수가 담겨있던 메소드</param>
+        /// <returns></returns>
         public static string GetVariableName(this VariableDefinition var, MethodDefinition method)
         {
             var dbgInfo = Global.mdbReader.Read(method);
