@@ -4,6 +4,14 @@ SuperPower Unity!
 
 Features
 ----
+* __2-Way Binding__
+* __String Interpolation__
+* __PubSub Messaging__
+* __Threading Utilities__
+* __Object Pooling__
+
+Overview
+----
 __Recycle__
 ```cs
 [Recycle]
