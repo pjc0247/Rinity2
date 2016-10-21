@@ -93,5 +93,23 @@ namespace RiniSharp
             ilProcessor.Remove(cursor);
             cursor = next;
         }
+
+
+        public void LdThis(ILProcessor ilgen)
+        {
+            Emit(ilgen.Create(OpCodes.Ldarg_0));
+        }
+        public void LdStr(ILProcessor ilgen, string str)
+        {
+            Emit(ilgen.Create(OpCodes.Ldstr, str));
+        }
+        public void Call(ILProcessor ilgen, MethodReference method)
+        {
+            Emit(ilgen.Create(OpCodes.Call, method));
+        }
+        public void Callvirt(ILProcessor ilgen, MethodReference method)
+        {
+            Emit(ilgen.Create(OpCodes.Callvirt, method));
+        }
     }
 }

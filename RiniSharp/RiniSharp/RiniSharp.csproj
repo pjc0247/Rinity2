@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Aspects\AssemblyTag.cs" />
     <Compile Include="Aspects\Class\Recycle.cs" />
+    <Compile Include="Aspects\Method\Subscribe.cs" />
     <Compile Include="Aspects\IAspectBase.cs" />
     <Compile Include="Aspects\AspectTargetAttribute.cs" />
     <Compile Include="Aspects\Class\ClassAspect.cs" />

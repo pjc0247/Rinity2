@@ -35,7 +35,7 @@ namespace RiniSharp.Aspects.Method
                 },
                 (ilgen, cursor) =>
                 {
-                    cursor.EmitBefore(
+                    cursor.Emit(
                         ilgen.Create(OpCodes.Call, Global.module.Import(endMethod)));
                 });
         }

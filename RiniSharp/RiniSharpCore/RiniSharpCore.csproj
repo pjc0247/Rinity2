@@ -54,6 +54,7 @@
     <Compile Include="NotifyChangeAttribute.cs" />
     <Compile Include="RecycleAttribute.cs" />
     <Compile Include="SharedVariableAttribute.cs" />
+    <Compile Include="SubscribeAttribute.cs" />
     <Compile Include="SuppressExceptionAttribute.cs" />
     <Compile Include="ThreadingAttributes.cs" />
     <Compile Include="TraceAttribute.cs" />

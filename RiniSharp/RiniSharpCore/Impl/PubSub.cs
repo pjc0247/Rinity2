@@ -5,7 +5,6 @@ using System.Text;
 
 namespace RiniSharpCore.Impl
 {
-    
     public class PubSub
     {
         private static Dictionary<string, Action<IPubSubMessage>> handlers { get; set; }

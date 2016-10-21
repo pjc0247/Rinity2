@@ -182,7 +182,6 @@ namespace MiniScript2
 
 	class ReferenceExpression : Expression
 	{
-
 		public string Name
 		{
 			get { return var; }
@@ -335,10 +334,9 @@ namespace MiniScript2
 			return (lhs, rhs, table) =>
 			{
 				var l = lhs.Exec(table);
-				var r = rhs.Exec(table);
 
 				if (l == null)
-					return r;
+					return rhs.Exec(table);
 				else
 					return l;
 			};
@@ -351,15 +349,8 @@ namespace MiniScript2
 				var obj = lhs as ReferenceExpression;
 				var res = rhs.Exec(table);
 
-				if (table.ContainsKey(obj.Name))
-				{
-					table[obj.Name] = res;
-				}
-				else
-				{
-					table.Add(obj.Name, res);
-				}
-
+                table[obj.Name] = res;
+                
 				return res;
 			};
 		}

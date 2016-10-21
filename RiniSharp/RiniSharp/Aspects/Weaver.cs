@@ -32,6 +32,7 @@ namespace RiniSharp.Aspects
             AddMethodAspect<Trace>();
             AddMethodAspect<SuppressException>();
             AddMethodAspect<Dispatch>();
+            AddMethodAspect<Subscribe>();
 
             AddPropertyAspect<SharedVariable>();
 

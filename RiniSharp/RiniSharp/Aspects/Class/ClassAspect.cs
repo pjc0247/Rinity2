@@ -20,7 +20,7 @@ namespace RiniSharp.Aspects.Class
                 var targetAttr = (AspectTargetAttribute)
                     GetType().GetCustomAttributes(false)
                     .Where(x => x is AspectTargetAttribute)
-                    .First();
+                    .FirstOrDefault();
 
                 return targetAttr.targets;
             }
