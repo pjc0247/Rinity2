@@ -41,7 +41,7 @@ public void DownloadJson(string uri) {
 }
 
 [Dispatch(ThreadType.MainThread)]
-public void () OnDownloadJson(string json) {
+public void OnDownloadJson(string json) {
     // 이 메소드는 메인 스레드에서 실행됩니다.
 
     /* UI DODODODODO */
