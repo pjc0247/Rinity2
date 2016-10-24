@@ -1,6 +1,10 @@
 AutoBinding
 ====
 
+```
+AutoBinding의 내용은 2WayBinding의 내용으로 대체할 예정
+```
+
 __SharedVariables__ 기능은 게임 전역적으로 상태 혹은 값을 공유할 수 있도록 해주는 기능입니다.<br>
 여기서는 __AutoBinding__기능과 __SharedVariables__을 이용하여, 게임 UI와의 양방향 바인딩을 수행하는 예제를 보여줍니다.<br>
 <br>
