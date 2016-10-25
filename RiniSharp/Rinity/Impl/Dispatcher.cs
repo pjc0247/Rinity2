@@ -6,7 +6,7 @@ using System.Threading;
 
 using UnityEngine;
 
-namespace RiniSharpCore.Impl
+namespace Rinity.Impl
 {
     public delegate void RiniAction();
 

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 using MiniScript2;
 
-namespace RiniSharpCore.Impl
+namespace Rinity.Impl
 {
     public class SharedVariables
     {

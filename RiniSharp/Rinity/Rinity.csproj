@@ -7,8 +7,8 @@
     <ProjectGuid>{2AD9C1A3-37CF-41E9-8448-0AFFE3B056AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RiniSharpCore</RootNamespace>
-    <AssemblyName>RiniSharpCore</AssemblyName>
+    <RootNamespace>Rinity</RootNamespace>
+    <AssemblyName>Rinity</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -68,7 +68,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\RiniSharpCore.dll
+    <PostBuildEvent>copy "$(TargetPath)" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\Rinity.dll
 copy "$(TargetDir)MiniScript2.dll" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\MiniScript2.dll</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
