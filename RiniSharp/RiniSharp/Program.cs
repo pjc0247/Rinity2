@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.ComponentModel;
 
-using RiniSharpCore;
-using RiniSharpCore.Impl;
+using Rinity;
+using Rinity.Impl;
 
 using Mono.Cecil;
 using Mono.Cecil.Cil;

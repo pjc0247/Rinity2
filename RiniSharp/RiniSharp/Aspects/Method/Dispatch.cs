@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-using RiniSharpCore;
-using RiniSharpCore.Impl;
+using Rinity;
+using Rinity.Impl;
 
 namespace RiniSharp.Aspects.Method
 {

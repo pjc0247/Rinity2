@@ -127,11 +127,11 @@ namespace RiniSharp
             });
             ILTag.Output(ilgen, "----Call CreateDeleagate");
 
-            ilgen.EmitType(module.Import(typeof(RiniSharpCore.Impl.RiniAction)));
+            ilgen.EmitType(module.Import(typeof(Rinity.Impl.RiniAction)));
             ilgen.Emit(OpCodes.Ldloc, localLambdaKlass);
             ilgen.Emit(OpCodes.Ldstr, newMethod.Name);
             ilgen.Emit(OpCodes.Call, createDelegate);
-            ilgen.Emit(OpCodes.Castclass, module.Import(typeof(RiniSharpCore.Impl.RiniAction)));
+            ilgen.Emit(OpCodes.Castclass, module.Import(typeof(Rinity.Impl.RiniAction)));
 
             ILTag.Output(ilgen, "[End EmitLdAction]");
 

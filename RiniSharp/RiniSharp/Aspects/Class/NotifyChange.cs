@@ -8,7 +8,7 @@ using System.ComponentModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-using RiniSharpCore;
+using Rinity;
 
 namespace RiniSharp.Aspects.Class
 {
