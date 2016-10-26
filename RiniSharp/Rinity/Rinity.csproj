@@ -30,6 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,12 +47,14 @@
   <ItemGroup>
     <Compile Include="AutoInjectionRule.cs" />
     <Compile Include="DbgHelper.cs" />
+    <Compile Include="ExportAttribute.cs" />
     <Compile Include="Impl\Dispatcher.cs" />
     <Compile Include="Impl\IRecycleablePool.cs" />
     <Compile Include="Impl\ObjectPool.cs" />
     <Compile Include="Impl\PubSub.cs" />
     <Compile Include="Impl\PubSubMessages.cs" />
     <Compile Include="Impl\SharedVariables.cs" />
+    <Compile Include="Impl\StringInterpolation.cs" />
     <Compile Include="Impl\Unity.cs" />
     <Compile Include="NotifyChangeAttribute.cs" />
     <Compile Include="RecycleAttribute.cs" />
@@ -68,8 +73,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\Rinity.dll
-copy "$(TargetDir)MiniScript2.dll" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\MiniScript2.dll</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\Rinity\Rinity.dll
+copy "$(TargetDir)MiniScript2.dll" C:\Users\hyun\Documents\ZinnyTestApp\RinityTest\Assets\Rinity\MiniScript2.dll</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
