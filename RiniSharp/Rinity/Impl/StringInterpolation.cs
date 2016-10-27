@@ -85,7 +85,7 @@ namespace Rinity.Impl
                 {
                     var value = cacheItem.Get(ident, component);
 
-                    if (value == null)
+                    if (value == null) 
                         continue;
 
                     input = input.Replace(ident, value);
