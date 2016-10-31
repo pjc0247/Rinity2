@@ -39,6 +39,9 @@ namespace Rinity.AutoBindings
             {
                 AddHandler(targetVariableName, (_message) =>
                 {
+                    if ((object)_message.sender == this)
+                        return;
+
                     var message = (NotifyChangeMessage)_message;
                     OnTrigger(message.newValue);
                 });

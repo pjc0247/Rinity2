@@ -29,17 +29,23 @@ namespace Rinity.Impl
             else
                 return default(T);
         }
-        public static void Set<T>(string key, object val)
-        {
+        public static void SetWithSender<T>(string key, object val, object sender)
+        {   
             pool[key] = val;
 
             script.AddBind(key, val);
 
             PubSub.Publish($"sharedvar.{key}", new NotifyChangeMessage() {
+                sender = sender,
                 newValue = val,
                 variableName = key
             });
         }
+        public static void Set<T>(string key, object val) 
+        {
+            SetWithSender<T>(key, val, null);
+        }
+
         public static void Remove(string key)
         {
             pool.Remove(key);

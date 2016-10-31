@@ -9,6 +9,8 @@ namespace Rinity.Messages
 {
     public class SetActive : IPubSubMessage
     {
+        public object sender { get; set; }
+
         public bool active { get; set; }
     }
 }

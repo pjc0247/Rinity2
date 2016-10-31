@@ -22,13 +22,13 @@ namespace Rinity.AutoBindings
             // SET
             slider.onValueChanged.AddListener((value) =>
             {
-                SharedVariables.Set<float>(targetVariableName, value);
+                SharedVariables.SetWithSender<float>(targetVariableName, value, this);
             });
         }
 
         public override void OnTrigger(object value)
         {
-            slider.value = (float)value;
+            slider.value = Convert.ToSingle(value);
         }
     }
 }
