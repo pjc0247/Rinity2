@@ -7,32 +7,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-using RiniSharpCore;
-using RiniSharpCore.Impl;
+using Rinity;
+using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
     public class RinityInputField : SingleTargetedBinding
     {
+        [Visibility(SubscriptionType.LocalVariable | SubscriptionType.SharedVariable)]
         public bool twoWayBinding;
+        [Visibility(SubscriptionType.LocalVariable | SubscriptionType.SharedVariable)]
         public bool publishOnSubmit;
 
         private InputField input { get; set; }
         private Action<IPubSubMessage> handler { get; set; }
 
-        void Awake()
+        protected override void OnSetup()
         {
             input = GetComponent<InputField>();
-
-            // GET
-            if (twoWayBinding)
-            {
-                AddHandler(targetVariableName, (_message) =>
-                {
-                    var message = (NotifyChangeMessage)_message;
-                    input.text = SharedVariables.Get<string>(targetVariableName);
-                });
-            }
 
             // SET
             UnityEvent<string> targetEvent = input.onValueChanged;
@@ -42,6 +34,12 @@ namespace Rinity.AutoBindings
             {
                 SharedVariables.Set<string>(targetVariableName, text);
             });
+        }
+
+        public override void OnTrigger(object value)
+        {
+            if (twoWayBinding)
+                input.text = value.ToString();
         }
     }
 }

@@ -11,18 +11,16 @@ using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
-    public class RinityRawImage : SingleTargetedBinding
+    public class RinityActivation : SingleTargetedBinding
     {
-        private RawImage image { get; set; }
-
         protected override void OnSetup()
         {
-            image = GetComponent<RawImage>();
+            keepListening = true;
         }
 
         public override void OnTrigger(object value)
         {
-            image.texture = (Texture2D)value;
+            gameObject.SetActive((bool)value);
         }
     }
 }

@@ -45,7 +45,16 @@ public class BuildSupport
         if (string.IsNullOrEmpty(stderr) == false)
             UnityEngine.Debug.LogError(stderr);
 
-        var output = JsonUtility.FromJson<Output>(stdout);
+        Output output = null;
+        try
+        {
+            output = JsonUtility.FromJson<Output>(stdout);
+        }
+        catch(Exception e)
+        {
+            UnityEngine.Debug.LogError(e);
+            UnityEngine.Debug.LogError(stdout);
+        }
 
         foreach (var error in output.errors)
             UnityEngine.Debug.LogError(error.message);
@@ -87,7 +96,7 @@ public class BuildSupport
         AssetDatabase.ImportAsset("Assets/Rinity/TrashScript.cs");
     }
 
-    [MenuItem("Rinity/TestWin32Build")]
+    [MenuItem("Rinity/Build/Win32 Build")]
     static void Menu_BuildWin32()
     {
         var buildPath = Application.dataPath + "\\..\\proj.win32\\";

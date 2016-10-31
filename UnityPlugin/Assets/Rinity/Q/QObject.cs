@@ -2,24 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using UnityEngine;
 
-using Rinity;
-using Rinity.Impl;
-
-namespace Rinity
+namespace Rinity.Q
 {
-    public class Rinity : MonoBehaviour
+    public class QObject : MonoBehaviour
     {
         void Awake()
         {
-
+            Q.SetMainThreadId(Thread.CurrentThread.ManagedThreadId);
         }
 
         void Update()
         {
-            Dispatcher.Flush();
+            Q.Step();
         }
     }
 }

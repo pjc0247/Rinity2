@@ -26,6 +26,7 @@ namespace Rinity.Impl
         public static void Publish<T>(string channel, T message)
             where T : IPubSubMessage
         {
+            UnityEngine.Debug.Log("Publish<" + typeof(T).Name + "> : " + channel);
             if (handlers.ContainsKey(channel) == false)
                 return;
 
@@ -65,6 +66,15 @@ namespace Rinity.Impl
 
             Unsubscribe("type." + typeof(T).FullName, handlersByMethodPtr[idx]);
             handlersByMethodPtr.Remove(idx);
+        }
+
+        public static void Subscribe(Type type, Action<IPubSubMessage> handler)
+        {
+            Subscribe("type." + type.FullName, handler);
+        }
+        public static void Unsubscribe(Type type, Action<IPubSubMessage> handler)
+        {
+            Unsubscribe("type." + type.FullName, handler);
         }
 
         public static void SubscribeNotifyChange(string variableName, Action<IPubSubMessage> handler)

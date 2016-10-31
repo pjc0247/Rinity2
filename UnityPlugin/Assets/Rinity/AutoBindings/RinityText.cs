@@ -9,25 +9,25 @@ using UnityEngine.UI;
 using Rinity;
 using Rinity.Impl;
 
-namespace Rinity
+namespace Rinity.AutoBindings
 {
-    public class AutoBinding : MonoBehaviour
+    public class RinityText : AutoBindingBase
     {
         private Text text { get; set; }
-
         private string originalText { get; set; }
-        private Dictionary<string, Action<IPubSubMessage>> handlers { get; set; }
+        private Action<IPubSubMessage> handler { get; set; }
 
         void Awake()
-        { 
+        {
             text = GetComponent<Text>();
-            originalText = text.text;
 
-            handlers = new Dictionary<string, Action<IPubSubMessage>>();
+            UpdateTemplate(text.text);
         }
 
-        void OnEnable()
+        public void UpdateTemplate(string templateString)
         {
+            originalText = templateString;
+
             var keys = SharedVariables.GetBoundKeys(originalText);
             text.text = SharedVariables.Bind(originalText);
 
@@ -39,20 +39,8 @@ namespace Rinity
                     text.text = SharedVariables.Bind(originalText);
                 };
 
-                handlers[key] = handler;
-
-                PubSub.SubscribeNotifyChange(key, handler);
+                AddHandler(key, handler);
             }
-        }
-        void OnDisable()
-        {
-            var keys = SharedVariables.GetBoundKeys(originalText);
-            foreach (var key in keys)
-            {
-                PubSub.UnsubscribeNotifyChange(key, handlers[key]);
-            }
-
-            handlers.Clear();
         }
     }
 }

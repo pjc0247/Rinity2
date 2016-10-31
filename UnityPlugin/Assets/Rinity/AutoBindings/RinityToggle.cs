@@ -6,8 +6,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using RiniSharpCore;
-using RiniSharpCore.Impl;
+using Rinity;
+using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
@@ -16,22 +16,20 @@ namespace Rinity.AutoBindings
         private Toggle toggle { get; set; }
         private Action<IPubSubMessage> handler { get; set; }
 
-        void Awake()
+        protected override void OnSetup()
         {
             toggle = GetComponent<Toggle>();
-
-            // GET
-            AddHandler(targetVariableName, (_message) =>
-            {
-                var message = (NotifyChangeMessage)_message;
-                toggle.isOn = SharedVariables.Get<bool>(targetVariableName);
-            });
 
             // SET
             toggle.onValueChanged.AddListener((isOn) =>
             {
                 SharedVariables.Set<bool>(targetVariableName, isOn);
             });
+        }
+
+        public override void OnTrigger(object value)
+        {
+            toggle.isOn = (bool)value;
         }
     }
 }
