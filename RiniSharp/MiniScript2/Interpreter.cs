@@ -8,6 +8,10 @@ namespace MiniScript2
 	//Expression Builder가 만든 표현식 실행해서 결과 돌려줌
 	public class Interpreter
 	{
+        public Interpreter()
+        {
+            Stdlib.Bind(this);
+        }
 
 		//외부 값을 이름으로 내부 스크립트에 바인딩함(기존 바인딩 날아감)
 		public void Bind(Dictionary<string, object> values)

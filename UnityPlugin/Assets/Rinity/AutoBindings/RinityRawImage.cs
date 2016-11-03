@@ -11,6 +11,7 @@ using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
+    [RequireComponent(typeof(RawImage))]
     public class RinityRawImage : SingleTargetedBinding
     {
         private RawImage image { get; set; }

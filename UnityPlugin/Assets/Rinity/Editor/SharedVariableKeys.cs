@@ -24,7 +24,7 @@ namespace Rinity.Editor
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded()
         {
-            var ps = typeof(global::Rinity.Rinity).Assembly
+            var ps = typeof(global::Rinity.RinityObject).Assembly
                 .GetTypes()
                 .SelectMany(x => x.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                 .Select(x => new {

@@ -14,7 +14,7 @@ namespace Rinity.Editor
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded()
         {
-            var types = typeof(global::Rinity.Rinity).Assembly
+            var types = typeof(global::Rinity.RinityObject).Assembly
                 .GetTypes()
                 .Where(x => x.GetInterfaces().Contains(typeof(global::Rinity.Impl.IPubSubMessage)))
                 .ToArray();

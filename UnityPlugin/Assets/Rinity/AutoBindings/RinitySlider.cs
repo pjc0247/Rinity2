@@ -11,6 +11,7 @@ using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
+    [RequireComponent(typeof(Slider))]
     public class RinitySlider : SingleTargetedBinding
     {
         private Slider slider { get; set; }

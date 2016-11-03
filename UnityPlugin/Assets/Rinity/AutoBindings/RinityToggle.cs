@@ -11,6 +11,7 @@ using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
+    [RequireComponent(typeof(Toggle))]
     public class RinityToggle : SingleTargetedBinding
     {
         private Toggle toggle { get; set; }

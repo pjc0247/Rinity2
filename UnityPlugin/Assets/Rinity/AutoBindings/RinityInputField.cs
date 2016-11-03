@@ -12,6 +12,7 @@ using Rinity.Impl;
 
 namespace Rinity.AutoBindings
 {
+    [RequireComponent(typeof(InputField))]
     public class RinityInputField : SingleTargetedBinding
     {
         [Visibility(SubscriptionType.LocalVariable | SubscriptionType.SharedVariable)]

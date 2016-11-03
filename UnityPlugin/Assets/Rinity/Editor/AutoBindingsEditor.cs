@@ -144,17 +144,31 @@ namespace Rinity.Editor
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
-            
+            var originalText = ((RinityText)target).originalText;
+            var style = new GUIStyle(GUI.skin.FindStyle("HelpBox"));
+            if (string.IsNullOrEmpty(originalText))
+                originalText = ((RinityText)target).GetComponent<Text>().text;
+            var keys = SharedVariables.GetBoundKeys(originalText);
+
+            style.richText = true;
+
+            foreach(var key in keys)
+            {
+                originalText = originalText.Replace(key, "<b><color=blue>" + key + "</color></b>");
+            }
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField(originalText, style);
+
             fold = EditorGUILayout.Foldout(fold, "TargetVariable(s)");
 
+            EditorGUI.indentLevel++;
             if (fold)
             {
-                var text = ((RinityText)target).GetComponent<Text>();
-                var keys = SharedVariables.GetBoundKeys(text.text);
                 foreach (var key in keys)
                     EditorGUILayout.LabelField(key);
             }
+            EditorGUI.indentLevel--;
         }
     }
 

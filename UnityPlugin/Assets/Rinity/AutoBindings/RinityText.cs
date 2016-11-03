@@ -13,8 +13,9 @@ namespace Rinity.AutoBindings
 {
     public class RinityText : AutoBindingBase
     {
+        public string originalText { get; private set; }
+
         private Text text { get; set; }
-        private string originalText { get; set; }
         private Action<IPubSubMessage> handler { get; set; }
 
         void Awake()
