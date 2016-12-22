@@ -20,6 +20,18 @@ PubSubMessage에 바인딩하기
 특정한 메세지를 수신하거나, 메세지 안의 값에 의해서 토글 상태가 변경됩니다.
 
 
+로컬 변수에 바인딩하기
+----
+`SharedVar`에 바인딩하는것과 똑같은 개념이지만, 변수 스코프가 컴포넌트의 프로퍼티입니다.<br>
+Rinity는 현재 컴포넌트의 `public` 프로퍼티를 검색하여 표시합니다.
+
+```cs
+public class MyGameObject : MonoBehaviour { 
+    public bool toggle { get; set; }
+}
+```
+
+
 단반향 바인딩
 ----
 UI 컴포넌트 중에는 유저와의 인터렉션이 없는 오브젝트들도 존재합니다.<br>
