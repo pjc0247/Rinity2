@@ -7,7 +7,7 @@
 SharedVar에 바인딩하기
 ----
 
-![1](by_shared_var.PNG)
+![1](by_shared_var.PNG)<br>
 토글의 값이 `bool option_enableSound`의 값과 바인딩됩니다.<br>
 양방향 바인딩이기 때문에, 유저의 토글 인풋에 의해 `option_enableSound`의 실제 값이 바뀔 수도 있고<br>
 반대로 소스상에서의 `option_enableSound` 값 변경에 의해 UI의 토글 상태가 변경될 수 있습니다.
@@ -16,7 +16,7 @@ SharedVar에 바인딩하기
 PubSubMessage에 바인딩하기
 -----
 
-![2](by_message.png)
+![2](by_message.png)<br>
 특정한 메세지를 수신하거나, 메세지 안의 값에 의해서 토글 상태가 변경됩니다.
 
 
