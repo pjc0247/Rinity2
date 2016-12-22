@@ -7,13 +7,13 @@
 SharedVar에 바인딩하기
 ----
 
-![by_shared_var.PNG]()
+![1](by_shared_var.PNG)
 
 
 PubSubMessage에 바인딩하기
 -----
 
-![by_message.png]()
+![2](by_message.png)
 
 
 단반향 바인딩
@@ -21,5 +21,5 @@ PubSubMessage에 바인딩하기
 UI 컴포넌트 중에는 유저와의 인터렉션이 없는 오브젝트들도 존재합니다.<br>
 예를들어 `Text`는 단순히 텍스트를 출력할 뿐 유저로부터 입력을 받기 위해서 만들어진 오브젝트가 아닙니다.<br>
 
-![single_binding_1.png]()<br>
-![single_binding.png]()
+![3](single_binding_1.png)<br>
+![4](single_binding.png)
