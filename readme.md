@@ -4,9 +4,9 @@ SuperPower Unity!
 
 Features
 ----
-* __2-Way Binding__
-* __String Interpolation__
-* __PubSub Messaging__
+* __[2-Way Binding](https://github.com/pjc0247/Rinity2/tree/master/docs/2way_binding)__
+* __[String Interpolation](https://github.com/pjc0247/Rinity2/blob/master/docs/string_interpolation.md)__
+* __[PubSub Messaging](https://github.com/pjc0247/Rinity2/tree/master/docs/pubsub)__
 * __Threading Utilities__
 * __Object Pooling__
 
