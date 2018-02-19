@@ -12,8 +12,6 @@ namespace Rinity.Editor
 {
     class AutoRefresh
     {
-        private static DateTime ScriptAssemblyLastWriteTime;
-
         [InitializeOnLoadMethod]
         private static void Init()
         {

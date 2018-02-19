@@ -77,7 +77,7 @@ public class BuildSupport
     }
 
     [MenuItem("Rinity/Force Rebuild")]
-    static void Menu_ForceRebuild()
+    private static void Menu_ForceRebuild()
     { 
         File.WriteAllText(
             Application.dataPath + "\\Rinity\\TrashScript.cs",
@@ -87,7 +87,7 @@ public class BuildSupport
     }
 
     [MenuItem("Rinity/TestWin32Build")]
-    static void Menu_BuildWin32()
+    private static void Menu_BuildWin32()
     {
         var buildPath = Application.dataPath + "\\..\\proj.win32\\";
         var outputPath = buildPath + "game.exe";
