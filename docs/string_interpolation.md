@@ -1,11 +1,11 @@
-문자열 보간
+String Interpolation
 ====
 
-__문자열 보간__ 기능은 문자열 리터럴 사이에 여러개의 변수를 끼워 넣고 싶은 경우에 좀 더 깔끔한 코드를 작성할 수 있도록 해줍니다.<br>
+__StringInterpolation__ 기능은 문자열 리터럴 사이에 여러개의 변수를 끼워 넣고 싶은 경우에 좀 더 깔끔한 코드를 작성할 수 있도록 해줍니다.<br>
 (C# 6.0의 문자열 보간의 하위 호환 버전입니다.)<br>
 <br>
 문자열 리터럴 내부에 직접 `{{value_name}}`과 같이 작성하면 런타임에 값이 바인딩됩니다.<br>
-가장 기본적인 예제 코드는 아래와 같습니다.
+Here's a basic example of StringInterpolation:
 
 ```cs
 int playerHp = 100;
@@ -18,23 +18,19 @@ Debug.Log("Player HP : {{playerHp}}");
 ```cs
 var str = "Player HP : {{playerHp}}";
 
-// 문자열 보간 기능은 이런 방식으로 구현되지 않았으며,
-// 아래와 같이 동작합니다.
-str = str.Replace("{{playerHp}}", playerHp.ToString());
-
-// 컴파일 타임에 자동으로 아래와 같은 코드로 교체됩니다.
+// Your code will be replace like below in compile time.
 str = "Player HP : " + playerHp.ToString();
 ```
 
-바인딩 할 수 있는 값
+List of values you CAN bind
 ----
-* 메소드의 지역 변수
-* 메소드의 파라미터
-* 프로퍼티
-* 필드
+* Local variables inside method.
+* Parameters
+* Properties
+* Fields
 
-바인딩 할 수 없는 값
+List of values you CAN'T bind
 ----
-* 표현식
-    * `{{1 + 2}}` 또는 `{{Sum(1, 2)}}`
-* 람다 식 내부에서의 메소드 지역 변수 (부분적 지원)
+* Expressions
+    * `{{1 + 2}}` or `{{Sum(1, 2)}}`
+* Captured local variables outside lambda function (Partial support)

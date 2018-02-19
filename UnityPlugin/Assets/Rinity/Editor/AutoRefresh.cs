@@ -1,25 +1,34 @@
-﻿using UnityEngine;
-using UnityEditor;
-
-using System;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Threading;
-using System.IO;
+
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.Compilation;
 
 namespace Rinity.Editor
 {
     class AutoRefresh
     {
-        static string ScriptAssemblyPath = Application.dataPath + "\\..\\Library\\ScriptAssemblies\\Assembly-CSharp.dll";
-        static DateTime ScriptAssemblyLastWriteTime;
+        private static DateTime ScriptAssemblyLastWriteTime;
 
-        [UnityEditor.Callbacks.DidReloadScripts]
-        private static void OnScriptsReloaded()
+        [InitializeOnLoadMethod]
+        private static void Init()
         {
-            if (File.Exists(ScriptAssemblyPath))
+            CompilationPipeline.assemblyCompilationFinished += (path, __) =>
             {
-                var lastWriteTime = File.GetLastWriteTime(ScriptAssemblyPath);
+                if (path.Contains("Editor")) return;
+                OnScriptsReloaded(path);
+            };
+        }
+
+        private static void OnScriptsReloaded(string path)
+        {
+            if (File.Exists(path))
+            {
+                var lastWriteTime = File.GetLastWriteTime(path);
                 var now = DateTime.Now;
 
                 var delta = (now - lastWriteTime);
@@ -28,7 +37,7 @@ namespace Rinity.Editor
                     return;
             }
 
-            BuildSupport.ApplyRiniSharp(Application.dataPath + "\\..\\Library\\ScriptAssemblies");
+            BuildSupport.ApplyRiniSharp(Directory.GetCurrentDirectory() + "/" + path);
         }
     }
 }

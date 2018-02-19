@@ -9,11 +9,11 @@ namespace Rinity.Impl
     {
         public static void Enter(string msg)
         {
-            UnityEngine.Profiler.BeginSample(msg);
+            UnityEngine.Profiling.Profiler.BeginSample(msg);
         }
         public static void Leave()
         {
-            UnityEngine.Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
         }
     }
 }

@@ -25,7 +25,5 @@ namespace RiniSharp
                     Net2Resolver.GetMethod(nameof(String), nameof(String.Concat),
                     new Type[] { typeof(string), typeof(string) }));
         }
-
-
     }
 }

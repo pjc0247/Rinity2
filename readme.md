@@ -2,6 +2,10 @@ Rinity2
 ====
 SuperPower Unity!
 
+Requirements
+----
+* Unity 2017.3 or higher
+
 Features
 ----
 * __[2-Way Binding](https://github.com/pjc0247/Rinity2/tree/master/docs/2way_binding)__
@@ -34,7 +38,7 @@ __Dispatch__
 ```cs
 [Dispatch(ThreadType.ThreadPool)]
 public void DownloadJson(string uri) {
-    // 이 메소드는 스레드풀에서 실행됩니다.
+    // This will be executed in background thread.
     var json = SomeDownloadMethod(uri);
 
     OnDownloadJson(json);
@@ -42,9 +46,9 @@ public void DownloadJson(string uri) {
 
 [Dispatch(ThreadType.MainThread)]
 public void OnDownloadJson(string json) {
-    // 이 메소드는 메인 스레드에서 실행됩니다.
+    // Will be executed in main thread.
 
-    /* UI DODODODODO */
+    /* do UI tasks */
 }
 ```
 
@@ -59,21 +63,24 @@ public int level2 {get;set;}
 
 __Trace__
 ```cs
-https://github.com/pjc0247/Unity.Profiler.Ext
+[Trace]
+public void WorkWork() {
+    /* .... */
+}
 ```
 
 __NotifyChange__
 ```cs
-class Player : INotifyPropertyChanged {}
+class Player : INotifyPropertyChanged {
     public event PropertyChangedEventHandler PropertyChanged;
-
     public int level { get; set; }
 
     void Start () {
         PropertyChanged += OnPropertyChanged;
-	}
+    }
+
+    // Automatically called when property is changed.
     private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) {
-        // 프로퍼티가 변경되면 자동으로 호출됩니다.
         Debug.Log("PROPERTY CHANGED : " + e.PropertyName);
     }
 }
@@ -81,6 +88,6 @@ class Player : INotifyPropertyChanged {}
 
 __DbgHelper__
 ```cs
-// current code line
+// Same as __LINE__ in C++
 Debug.Log( DbgHelper.CurrentLine );
 ```

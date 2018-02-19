@@ -24,11 +24,10 @@ public class BuildSupport
 
     }
 
-    internal static void ApplyRiniSharp(string buildPath)
+    internal static void ApplyRiniSharp(string path)
     {
         var ps = new ProcessStartInfo(Application.dataPath + "\\..\\Rinity\\RiniSharp.exe");
-        ps.Arguments = buildPath + "\\Assembly-CSharp.dll";
-
+        ps.Arguments = path;
         ps.WorkingDirectory = Application.dataPath + "\\..\\Rinity\\";
         ps.UseShellExecute = false;
         ps.RedirectStandardOutput = true;
@@ -45,16 +44,7 @@ public class BuildSupport
         if (string.IsNullOrEmpty(stderr) == false)
             UnityEngine.Debug.LogError(stderr);
 
-        Output output = null;
-        try
-        {
-            output = JsonUtility.FromJson<Output>(stdout);
-        }
-        catch(Exception e)
-        {
-            UnityEngine.Debug.LogError(e);
-            UnityEngine.Debug.LogError(stdout);
-        }
+        var output = JsonUtility.FromJson<Output>(stdout);
 
         foreach (var error in output.errors)
             UnityEngine.Debug.LogError(error.message);
@@ -96,7 +86,7 @@ public class BuildSupport
         AssetDatabase.ImportAsset("Assets/Rinity/TrashScript.cs");
     }
 
-    [MenuItem("Rinity/Build/Win32 Build")]
+    [MenuItem("Rinity/TestWin32Build")]
     static void Menu_BuildWin32()
     {
         var buildPath = Application.dataPath + "\\..\\proj.win32\\";

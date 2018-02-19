@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityEngine;
+using UnityEngine.Profiling;
+
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
 using Rinity;
 using Rinity.Impl;
-
-using UnityEngine;
 
 namespace RiniSharp.Aspects.Method
 {

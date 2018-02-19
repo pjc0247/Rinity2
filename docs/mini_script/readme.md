@@ -15,15 +15,15 @@ script.Bind("b", 100);
 script.Exec("a + b"); // 112
 ```
 
-사용할 수 있는 기능
+Implemented syntaxes
 ----
-__변수__<br>
+__Variables__<br>
 일반적인 대입 연산을 이용하여 변수를 선언합니다. 변수는 대입과 동시에 생성됩니다.
 ```
 a = 10
 ```
 
-__사칙 연산 수행__<br>
+__Expressions__<br>
 일반적인 수식 계산이 가능합니다. 수식에는 변수를 사용할 수 있습니다. 
 ```
 4 + 4 * 4
@@ -31,24 +31,25 @@ __사칙 연산 수행__<br>
 a + a * a - b
 ```
 
-__함수 호출__<br>
+__Values and functions__<br>
+You can bind C# values and functions to MiniScript context.
+```
+// Value
+script.Bind("a", 10);
+
+// Function
+script.Bind("sum", (a, b) => a + b);
+```
+
+__Function call__<br>
 ```
 b = sum(1, 10)
 ```
 
-__값 바인딩__<br>
-```
-// 변수 바인딩
-script.Bind("a", 10);
-
-// 함수 바인딩
-script.Bind("sum", (a, b) => a + b);
-```
-
-사용할 수 없는 기능
+Unimplemented syxtaxes
 ----
-* 주석
-* 상수
-* 조건식
-* 반복문
+* Comment
+* Const variable
+* If statement
+* For, While statement
 * 스크립트를 통한 함수 정의
