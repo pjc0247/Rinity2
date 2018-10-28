@@ -1,6 +1,8 @@
 Rinity2
 ====
-SuperPower Unity!
+SuperPower Unity!<br>
+<br>
+__Rinity2__ performs IL(C# bytecode) modification to accomplish things which cannot be done in vanilla C#/Unity. This may sensative to Unity version changes.
 
 Requirements
 ----
