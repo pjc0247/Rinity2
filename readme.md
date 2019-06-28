@@ -36,6 +36,7 @@ int a = 1234;
 
 Debug.Log("a is {{a}}.")
 ```
+* This feature is no longer useful since Unity fully supports latest .Net and C#.
 
 __Dispatch__
 ```cs
