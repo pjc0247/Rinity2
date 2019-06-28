@@ -29,6 +29,8 @@ public class Player {
 /* auto pooling */
 var player = new Player();
 ```
+Automatically recycles the objects instead of creating new one. <br>
+[based on this small research](https://github.com/pjc0247/ZombieTest/blob/master/zombie.cs#L46-L47)
 
 __String Interpolation__
 ```cs
@@ -55,6 +57,7 @@ public void OnDownloadJson(string json) {
     /* do UI tasks */
 }
 ```
+Just call methods without threading concerns, it automatically dispatches to right thread for you.
 
 __SharedVar__
 ```cs
